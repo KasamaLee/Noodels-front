@@ -31,7 +31,9 @@ export default function ProductDetail({ productId, imageUrl, name, desc, price, 
 
 
     const increment = () => {
-        setProductCount(productCount + 1);
+        if (productCount < selectedProductStockQuantity) {
+            setProductCount(productCount + 1);
+        }
     }
 
     const decrement = () => {
@@ -62,7 +64,7 @@ export default function ProductDetail({ productId, imageUrl, name, desc, price, 
 
                     <div className='flex gap-4 items-center justify-center'>
                         <FontAwesomeIcon icon={faSquareMinus} size='2x'
-                            className={`cursor-pointer hover:text-amber-500 active:text-amber-500 ${productCount <= 1 && 'invisible'}`}
+                            className={`cursor-pointer ${productCount <= 1 ? 'opacity-20' : 'hover:text-amber-500 active:text-amber-500 '}`}
                             onClick={() => {
                                 decrement()
                             }}
@@ -70,7 +72,7 @@ export default function ProductDetail({ productId, imageUrl, name, desc, price, 
 
                         <h4 className='text-3xl text-center text-amber-500 w-8'>{productCount}</h4>
                         <FontAwesomeIcon icon={faSquarePlus} size='2x'
-                            className='cursor-pointer hover:text-amber-500 active:text-amber-500'
+                            className={`cursor-pointer ${productCount >= selectedProductStockQuantity ? 'opacity-20' : 'hover:text-amber-500 active:text-amber-500 '}`}
                             onClick={() => {
                                 increment()
                             }}
