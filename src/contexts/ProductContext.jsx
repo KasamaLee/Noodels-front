@@ -19,7 +19,7 @@ export default function ProductContextProvider({ children }) {
 
     const [allCategory, setAllCategory] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('All');
-    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState(null);
 
 
     useEffect(() => {
@@ -31,9 +31,6 @@ export default function ProductContextProvider({ children }) {
         const response = await axios.get('http://localhost:5555/product/get')
         setAllProducts(response.data.allProducts)
     }
-
-    // console.log(allProducts)
-    // console.log(selectedProduct, '--------')
 
     const fetchCategory = async () => {
         const response = await axios.get('http://localhost:5555/category/get')

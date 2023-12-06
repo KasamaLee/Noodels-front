@@ -1,14 +1,14 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
-import axios from 'axios';
+import { faCartShopping, faPlus, faSquarePlus, faSquareMinus } from '@fortawesome/free-solid-svg-icons';
 import { useContext } from 'react';
 import { ProductContext } from '../../contexts/ProductContext';
 import { CartContext } from '../../contexts/CartContext';
+import { useEffect } from 'react';
 
 export default function ProductDetail({ productId, imageUrl, name, desc, price, stockQuantity }) {
 
     const {
+        isOpenModal,
         selectedProductId,
         selectedProductImageUrl,
         selectedProductName,
@@ -25,6 +25,24 @@ export default function ProductDetail({ productId, imageUrl, name, desc, price, 
         handleAddToCart
     } = useContext(CartContext);
 
+    useEffect(() => {
+        reset()
+    }, [isOpenModal])
+
+
+    const increment = () => {
+        setProductCount(productCount + 1);
+    }
+
+    const decrement = () => {
+        if (productCount > 1) {
+            setProductCount(productCount - 1);
+        }
+    }
+
+    const reset = () => {
+        setProductCount(1)
+    }
 
     return (
         <div className='flex gap-8'>
@@ -34,11 +52,31 @@ export default function ProductDetail({ productId, imageUrl, name, desc, price, 
                 <div className='bg-gray-400 w-[500px] h-[500px] rounded-xl'></div>
             )}
 
-            <div className='flex flex-col'>
-                <h3 className='text-4xl'>{selectedProductName}</h3>
-                <div className='flex justify-between'>
-                    <h6 className='text-lg font-normal text-gray-500'>Stock: {selectedProductStockQuantity}</h6>
-                    <h6 className='text-xl text-amber-500'>{selectedProductPrice} &#3647;</h6>
+            <div className='flex flex-col justify-between'>
+                <div className='flex flex-col gap-8'>
+                    <h3 className='text-4xl'>{selectedProductName}</h3>
+                    <div className='flex justify-between'>
+                        <h6 className='text-lg font-normal text-gray-500'>Stock: {selectedProductStockQuantity}</h6>
+                        <h6 className='text-xl text-amber-500'>{selectedProductPrice} &#3647;</h6>
+                    </div>
+
+                    <div className='flex gap-4 items-center justify-center'>
+                        <FontAwesomeIcon icon={faSquareMinus} size='2x'
+                            className={`cursor-pointer hover:text-amber-500 active:text-amber-500 ${productCount <= 1 && 'invisible'}`}
+                            onClick={() => {
+                                decrement()
+                            }}
+                        />
+
+                        <h4 className='text-3xl text-center text-amber-500 w-8'>{productCount}</h4>
+                        <FontAwesomeIcon icon={faSquarePlus} size='2x'
+                            className='cursor-pointer hover:text-amber-500 active:text-amber-500'
+                            onClick={() => {
+                                increment()
+                            }}
+                        />
+
+                    </div>
                 </div>
 
                 <button

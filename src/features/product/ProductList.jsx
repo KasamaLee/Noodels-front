@@ -29,7 +29,7 @@ export default function ProductList() {
                             />
                         )
                     })
-                ) : filteredProducts && filteredProducts.length === 0 ? (
+                ) : filteredProducts && filteredProducts.length == 0 ? (
                     <div className='col-span-full '>
                         <h4 className='text-center text-lg text-gray-500'>Product Not Found :\ </h4>
                         <NoodlesAnimation />
