@@ -8,7 +8,7 @@ export const ProductContext = createContext()
 export default function ProductContextProvider({ children }) {
 
     const [isOpenModal, setIsOpenModal] = useState(false);
-    
+
     const [allProducts, setAllProducts] = useState([]);
     const [selectedProductId, setSelectedProductId] = useState();
     const [selectedProductImageUrl, setSelectedProductImageUrl] = useState();
@@ -17,9 +17,14 @@ export default function ProductContextProvider({ children }) {
     const [selectedProductPrice, setSelectedProductPrice] = useState();
     const [selectedProductStockQuantity, setSelectedProductStockQuantity] = useState();
 
+    const [allCategory, setAllCategory] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('All');
+    const [filteredProducts, setFilteredProducts] = useState([]);
+
 
     useEffect(() => {
         fetchProduct()
+        fetchCategory()
     }, [])
 
     const fetchProduct = async () => {
@@ -29,6 +34,16 @@ export default function ProductContextProvider({ children }) {
 
     // console.log(allProducts)
     // console.log(selectedProduct, '--------')
+
+    const fetchCategory = async () => {
+        const response = await axios.get('http://localhost:5555/category/get')
+        setAllCategory(response.data.allCategory)
+    }
+
+    const handleFilteredProducts = (categoryId) => {
+        const newFilteredProducts = allProducts.filter((eachProduct) => (eachProduct.countryId === categoryId))
+        setFilteredProducts(newFilteredProducts);
+    }
 
     return (
         <ProductContext.Provider
@@ -40,7 +55,12 @@ export default function ProductContextProvider({ children }) {
                 selectedProductName, setSelectedProductName,
                 selectedProductDesc, setSelectedProductDesc,
                 selectedProductPrice, setSelectedProductPrice,
-                selectedProductStockQuantity, setSelectedProductStockQuantity
+                selectedProductStockQuantity, setSelectedProductStockQuantity,
+
+                allCategory, setAllCategory,
+                selectedCategory, setSelectedCategory,
+                filteredProducts, setFilteredProducts,
+                handleFilteredProducts
             }}
         >
             {children}
