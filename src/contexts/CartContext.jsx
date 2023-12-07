@@ -1,24 +1,25 @@
+import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
 import { createContext } from 'react'
 
 export const CartContext = createContext();
 
-export default function CartContextProvider({children}) {
+export default function CartContextProvider({ children }) {
 
     const [productCount, setProductCount] = useState(1);
     const [cartItems, setCartItems] = useState([]);
     const [productTotalPrice, setProductTotalPrice] = useState();
 
-    const handleAddToCart = (productId) => {
+    const handleAddToCart = (selectedProductId) => {
 
         const newCartItem = {
-            productId: productId,
+            productId: selectedProductId,
             quantity: productCount,
             price: productTotalPrice
         }
         const updatedCartItems = [...cartItems, newCartItem]
-        
+
         setCartItems(updatedCartItems)
 
         console.log('updatedCartItems', updatedCartItems)
@@ -28,19 +29,18 @@ export default function CartContextProvider({children}) {
             CartItem: updatedCartItems
         }
 
-        console.log(requestBody)
-
-        // const response = axios.post('http://localhost:5555/cart/add', requestBody)
+        const response = axios.post('http://localhost:5555/cart/add', requestBody)
+        console.log(response)
     }
 
     return (
         <CartContext.Provider
-        value={{
-            productCount, setProductCount,
-            cartItems, setCartItems,
-            productTotalPrice, setProductTotalPrice,
-            handleAddToCart
-        }}
+            value={{
+                productCount, setProductCount,
+                cartItems, setCartItems,
+                productTotalPrice, setProductTotalPrice,
+                handleAddToCart
+            }}
         >
             {children}
         </CartContext.Provider>

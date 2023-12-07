@@ -7,7 +7,6 @@ import { ProductContext } from '../../contexts/ProductContext';
 
 export default function ProductCard({ productId, imageUrl, name, desc, price, stockQuantity }) {
 
-
     const {
         isOpenModal, setIsOpenModal,
         setSelectedProductId,

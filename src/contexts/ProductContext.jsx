@@ -10,7 +10,7 @@ export default function ProductContextProvider({ children }) {
     const [isOpenModal, setIsOpenModal] = useState(false);
 
     const [allProducts, setAllProducts] = useState([]);
-    const [selectedProductId, setSelectedProductId] = useState();
+    const [selectedProductId, setSelectedProductId] = useState(null);
     const [selectedProductImageUrl, setSelectedProductImageUrl] = useState();
     const [selectedProductName, setSelectedProductName] = useState();
     const [selectedProductDesc, setSelectedProductDesc] = useState();
@@ -20,7 +20,7 @@ export default function ProductContextProvider({ children }) {
     const [allCategory, setAllCategory] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [filteredProducts, setFilteredProducts] = useState(null);
-
+    
 
     useEffect(() => {
         fetchProduct()

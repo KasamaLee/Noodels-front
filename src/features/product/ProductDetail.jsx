@@ -95,7 +95,7 @@ export default function ProductDetail({ productId }) {
                 <button
                     className='mt-4 w-56 ring-4 ring-black text-black px-6 py-2 bg-amber-400 rounded-3xl text-2xl font-semibold flex justify-center items-center gap-2 hover:gap-4'
                     onClick={() => {
-                        handleAddToCart(productId)
+                        handleAddToCart(selectedProductId)
                         setIsOpenModal(false)
                     }}
                 >
