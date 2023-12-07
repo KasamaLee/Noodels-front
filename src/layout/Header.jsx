@@ -32,6 +32,13 @@ export default function Header() {
               }}>
               User
             </li>
+            <li
+              className={`cursor-pointer flex justify-center items-center px-3 py-1 gap-1 bg-amber-500 rounded-3xl hover:ring-white hover:ring-2`}
+              onClick={() => {
+                // setUserDetailOpen(!userDetailOpen)
+              }}>
+              Cart
+            </li>
           </ul>
         </nav>
       </div>

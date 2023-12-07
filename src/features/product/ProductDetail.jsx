@@ -5,10 +5,10 @@ import { ProductContext } from '../../contexts/ProductContext';
 import { CartContext } from '../../contexts/CartContext';
 import { useEffect } from 'react';
 
-export default function ProductDetail({ productId, imageUrl, name, desc, price, stockQuantity }) {
+export default function ProductDetail({ productId }) {
 
     const {
-        isOpenModal,
+        isOpenModal,setIsOpenModal,
         selectedProductId,
         selectedProductImageUrl,
         selectedProductName,
@@ -17,7 +17,6 @@ export default function ProductDetail({ productId, imageUrl, name, desc, price, 
         selectedProductStockQuantity
     } = useContext(ProductContext);
 
-
     const {
         productCount, setProductCount,
         cartItems, setCartItems,
@@ -25,9 +24,14 @@ export default function ProductDetail({ productId, imageUrl, name, desc, price, 
         handleAddToCart
     } = useContext(CartContext);
 
+
     useEffect(() => {
         reset()
     }, [isOpenModal])
+
+    useEffect(() => {
+        calcTotalPrice()
+    }, [productCount])
 
 
     const increment = () => {
@@ -44,6 +48,10 @@ export default function ProductDetail({ productId, imageUrl, name, desc, price, 
 
     const reset = () => {
         setProductCount(1)
+    }
+
+    const calcTotalPrice = () => {
+        setProductTotalPrice(productCount * selectedProductPrice)
     }
 
     return (
@@ -67,6 +75,7 @@ export default function ProductDetail({ productId, imageUrl, name, desc, price, 
                             className={`cursor-pointer ${productCount <= 1 ? 'opacity-20' : 'hover:text-amber-500 active:text-amber-500 '}`}
                             onClick={() => {
                                 decrement()
+                                calcTotalPrice()
                             }}
                         />
 
@@ -75,15 +84,20 @@ export default function ProductDetail({ productId, imageUrl, name, desc, price, 
                             className={`cursor-pointer ${productCount >= selectedProductStockQuantity ? 'opacity-20' : 'hover:text-amber-500 active:text-amber-500 '}`}
                             onClick={() => {
                                 increment()
+                                calcTotalPrice()
                             }}
                         />
-
                     </div>
+
+                    <h4 className='text-2xl text-center text-amber-500'>Total Price : {productTotalPrice}</h4>
                 </div>
 
                 <button
                     className='mt-4 w-56 ring-4 ring-black text-black px-6 py-2 bg-amber-400 rounded-3xl text-2xl font-semibold flex justify-center items-center gap-2 hover:gap-4'
-                    onClick={() => handleAddToCart(productId)}
+                    onClick={() => {
+                        handleAddToCart(productId)
+                        setIsOpenModal(false)
+                    }}
                 >
                     Add to cart
                     <FontAwesomeIcon icon={faCartShopping} size='1x' />

@@ -23,8 +23,8 @@ export default function HomePage() {
             <section className='section bg-amber-100 pt-16'>
                 <div className='container flex justify-between py-8'>
                     <div className='w-full flex flex-col justify-center items-start gap-4'>
-                        <h3 className='w-full text-3xl font-bold text-gray-500 text-5xl'>Life is better with </h3>
-                        <h3 className='w-full text-3xl font-bold text-black text-5xl'>Noodles</h3>
+                        <h3 className='w-full text-3xl font-bold text-gray-500 text-5xl'>Life is short</h3>
+                        <h3 className='w-full text-3xl font-bold text-black text-5xl'>the Noodles long</h3>
                         <button
                             className='mt-4 w-40 ring-4 ring-black text-black px-6 py-2 bg-amber-400 rounded-3xl text-2xl font-semibold flex justify-center items-center gap-2 hover:gap-4'>
                             Explore
