@@ -1,7 +1,9 @@
-import axios from 'axios';
+import axios from '../config/axios';
 import React from 'react'
+import { useContext } from 'react';
 import { useState } from 'react';
 import { createContext } from 'react'
+import { AuthContext } from './AuthContext';
 
 export const CartContext = createContext();
 
@@ -10,6 +12,8 @@ export default function CartContextProvider({ children }) {
     const [productCount, setProductCount] = useState(1);
     const [cartItems, setCartItems] = useState([]);
     const [productTotalPrice, setProductTotalPrice] = useState();
+
+    const { authUser } = useContext(AuthContext)
 
     const handleAddToCart = (selectedProductId) => {
 
@@ -21,15 +25,15 @@ export default function CartContextProvider({ children }) {
         const updatedCartItems = [...cartItems, newCartItem]
 
         setCartItems(updatedCartItems)
-
         console.log('updatedCartItems', updatedCartItems)
 
         const requestBody = {
-            userId: 1,
+            userId: authUser.id,
             CartItem: updatedCartItems
         }
+        // console.log(requestBody)
 
-        const response = axios.post('http://localhost:5555/cart/add', requestBody)
+        const response = axios.post('/cart/add', requestBody)
         console.log(response)
     }
 

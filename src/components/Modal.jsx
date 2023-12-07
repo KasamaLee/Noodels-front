@@ -13,7 +13,7 @@ export default function Modal({ children, isOpenModal, onCloseModal }) {
                                 className="absolute top-6 right-8 text-gray-500 cursor-pointer"
                                 onClick={onCloseModal}
                             >
-                                <FontAwesomeIcon icon={faCircleXmark} size='2x' />
+                                <FontAwesomeIcon icon={faCircleXmark} size='2x' className='hover:text-amber-500 focus:text-amber-500' />
                             </div>
                             <div onClick={e => e.stopPropagation()}>
                                 {children}

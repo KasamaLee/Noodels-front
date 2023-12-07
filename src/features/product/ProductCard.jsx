@@ -20,7 +20,7 @@ export default function ProductCard({ productId, imageUrl, name, desc, price, st
     return (
         <>
             <div
-                className='rounded-2xl overflow-hidden bg-white ring-4 ring-gray-500 p-4 flex flex-col gap-4 cursor-pointer hover:ring-amber-400 hover:border-amber-500'
+                className='rounded-2xl overflow-hidden bg-white ring-4 ring-gray-500 p-4 flex flex-col gap-4 cursor-pointer hover:ring-amber-400'
                 onClick={() => {
                     setSelectedProductId(productId)
                     setSelectedProductImageUrl(imageUrl)

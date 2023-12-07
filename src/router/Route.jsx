@@ -4,6 +4,7 @@ import Layout from '../layout/Layout'
 import ContactPage from '../pages/ContactPage'
 import CartContextProvider from '../contexts/CartContext'
 import ProductContextProvider from '../contexts/ProductContext'
+import CartPage from '../pages/CartPage'
 
 
 const router = createBrowserRouter([
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
         children: [
             { path: '', element: <HomePage /> },
             { path: 'contact', element: <ContactPage /> },
+            { path: 'cart', element: <CartPage /> },
         ]
     }
 ])

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../config/axios';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { createContext } from 'react'
@@ -28,12 +28,12 @@ export default function ProductContextProvider({ children }) {
     }, [])
 
     const fetchProduct = async () => {
-        const response = await axios.get('http://localhost:5555/product/get')
+        const response = await axios.get('/product/get')
         setAllProducts(response.data.allProducts)
     }
 
     const fetchCategory = async () => {
-        const response = await axios.get('http://localhost:5555/category/get')
+        const response = await axios.get('/category/get')
         setAllCategory(response.data.allCategory)
     }
 
