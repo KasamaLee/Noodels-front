@@ -38,12 +38,14 @@ export default function ProductDetail({ productId }) {
         if (productCount < selectedProductStockQuantity) {
             setProductCount(productCount + 1);
         }
+        calcTotalPrice()
     }
 
     const decrement = () => {
         if (productCount > 1) {
             setProductCount(productCount - 1);
         }
+        calcTotalPrice()
     }
 
     const reset = () => {
@@ -75,7 +77,6 @@ export default function ProductDetail({ productId }) {
                             className={`cursor-pointer ${productCount <= 1 ? 'opacity-20' : 'hover:text-amber-500 active:text-amber-500 '}`}
                             onClick={() => {
                                 decrement()
-                                calcTotalPrice()
                             }}
                         />
 
@@ -84,7 +85,6 @@ export default function ProductDetail({ productId }) {
                             className={`cursor-pointer ${productCount >= selectedProductStockQuantity ? 'opacity-20' : 'hover:text-amber-500 active:text-amber-500 '}`}
                             onClick={() => {
                                 increment()
-                                calcTotalPrice()
                             }}
                         />
                     </div>

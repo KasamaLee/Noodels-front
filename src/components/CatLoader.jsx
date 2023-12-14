@@ -16,8 +16,8 @@ export default function CatLoader() {
         <div className='w-screen h-screen flex justify-center items-center bg-amber-50'>
             <Lottie
                 options={defaultOptions}
-                width={400}
-                height={400}
+                width={380}
+                height={380}
             />
         </div>
     )

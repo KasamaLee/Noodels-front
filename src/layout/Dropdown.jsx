@@ -2,7 +2,7 @@ import React from 'react'
 import { useRef } from 'react'
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignOutAlt, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faSignOutAlt, faChevronDown, faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { useEffect } from 'react';
 import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
@@ -46,9 +46,7 @@ export default function Dropdown() {
                             className='flex gap-4 p-2 items-center rounded-xl hover:bg-gray-100 cursor-pointer'
                             onClick={() => navigate('/profile')}
                         >
-                            <div>
-                                <div className='text-sm text-gray-500' >user info</div>
-                            </div>
+                            <div className='text-sm text-gray-600' >user info</div>
                         </div>
                         <hr className='m-2 border' />
 
@@ -56,9 +54,9 @@ export default function Dropdown() {
                             className='flex gap-4 p-2 items-center rounded-xl hover:bg-gray-100 cursor-pointer'
                             onClick={() => navigate('/order')}
                         >
-
-                            <div>
-                                <div className='text-sm text-gray-500' >payment history</div>
+                            <div className='text-sm text-gray-600 flex gap-3' >
+                                <FontAwesomeIcon icon={faClockRotateLeft} size='xl' />
+                                payment history
                             </div>
                         </div>
                         <hr className='m-2 border' />
@@ -71,11 +69,10 @@ export default function Dropdown() {
                                 navigate('/')
                             }}
                         >
-                            <div className='bg-gray-400 h-9 aspect-square rounded-full flex justify-center items-center'>
-                                <FontAwesomeIcon icon={faSignOutAlt} />
+                            <div className='text-sm text-gray-600 flex gap-3' >
+                                <FontAwesomeIcon icon={faSignOutAlt} size='xl' />
+                                Logout
                             </div>
-                            <div className='font-semibold text-sm text-gray-500'>Log out</div>
-
                         </div>
                     </div>
                 </div>

@@ -6,11 +6,14 @@ import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import Modal from '../components/Modal';
 import LoginOrRegister from '../features/auth/LoginOrRegister';
+import { CartContext } from '../contexts/CartContext';
 
 
 export default function Header() {
 
 	const { authUser, isOpenLoginModal, setIsOpenLoginModal } = useContext(AuthContext);
+	const { cartData } = useContext(CartContext);
+
 	const navigate = useNavigate();
 
 	return (
@@ -50,7 +53,7 @@ export default function Header() {
 									className={`cursor-pointer flex justify-center items-center px-3 py-1 gap-1 bg-amber-500 rounded-3xl hover:ring-white hover:ring-2`}
 									onClick={() => setIsOpenLoginModal(true)}
 								>
-									User
+									Login
 								</button>
 							)}
 						</li>

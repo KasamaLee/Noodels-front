@@ -1,24 +1,63 @@
 import React from 'react'
+import { useContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { CartContext } from '../contexts/CartContext';
+import { AuthContext } from '../contexts/AuthContext';
+import CatNotFound from '../components/CatNotFound'
+import CartItem from '../features/cart/CartItem';
+import CartFooter from '../features/cart/CartFooter';
 
 export default function CartPage() {
-  return (
-    <section className='section pt-24'>
-      <div className='container flex flex-col items-center gap-8'>
 
-        <h4 className='text-3xl'>Cart</h4>
+	const { authUser } = useContext(AuthContext);
+	const { cartData } = useContext(CartContext);
+	console.log(cartData)
 
-        <div
-          key={uuidv4()}
-          className="p-6 flex justify-between items-end gap-4 ring-4 ring-gray-500 bg-white rounded-xl w-2/3"
-        >
-          <div>
+	// Mutated
+	const sortedCartItems = cartData?.CartItem.sort((a, b) => {
+		if (a.product.stockQuantity === 0) return 1        // IF a:0 ==> move a BEHIND b
+		if (b.product.stockQuantity === 0) return -1       // IF b:0 ==> move a BEFORE b
+		return 0;                                          // BOTH a b are NOT 0 ==> No change
+	})
+	console.log(sortedCartItems)
 
-            <p className="text-gray-400 ">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum odit maxime doloremque nostrum magnam unde laudantium amet voluptates iure, ducimus fugiat impedit. Magnam enim ipsam similique aut ut maxime sit!</p>
-          </div>
-        </div>
-      </div>
+	return (
+		<section className='section py-28'>
+			<div className='container flex flex-col items-center gap-8'>
 
-    </section>
-  )
+
+
+				{authUser ? (
+					<>
+						<h4 className='text-3xl'>Cart</h4>
+						{sortedCartItems?.map(eachCart => {
+							return (
+								<CartItem
+									key={uuidv4()}
+									id={eachCart.id}
+									imageUrl={eachCart.product.imageUrl}
+									name={eachCart.product.name}
+									price={eachCart.price}
+									initialQuantity={eachCart.quantity}
+									maxQuantity={eachCart.product.stockQuantity}
+								/>
+
+							)
+						})}
+					</>
+				) : (
+					<>
+						<h4 className='pt-24 text-2xl text-center'>
+							Your cart is empty, <br />
+							Login to see your cart
+						</h4>
+						<CatNotFound />
+					</>
+				)}
+
+			</div>
+
+			<CartFooter />
+		</section>
+	)
 }
