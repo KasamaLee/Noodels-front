@@ -41,7 +41,6 @@ export default function CartPage() {
 									initialQuantity={eachCart.quantity}
 									maxQuantity={eachCart.product.stockQuantity}
 								/>
-
 							)
 						})}
 					</>

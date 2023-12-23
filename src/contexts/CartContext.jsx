@@ -1,6 +1,5 @@
 import axios from '../config/axios';
 import React from 'react'
-import { useContext } from 'react';
 import { useState } from 'react';
 import { createContext } from 'react'
 import { useEffect } from 'react';
@@ -66,7 +65,7 @@ export default function CartContextProvider({ children }) {
                 productCount, setProductCount,
                 cartItems, setCartItems,
                 productTotalPrice, setProductTotalPrice,
-                handleAddToCart,
+                handleAddToCart, handleDeleteCartItem, handleUpDateQuantity,
                 cartData, setCartData,
                 fetchCart
             }}

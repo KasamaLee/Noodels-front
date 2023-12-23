@@ -13,7 +13,9 @@ export default function CartCounter({ id, initialQuantity, maxQuantity, price })
 
     const [currentQuantity, setCurrentQuantity] = useState(initialQuantity);
     const [currentPrice, setCurrentPrice] = useState(price)
+
     const { isOpenModal, setIsOpenModal } = useContext(ProductContext)
+    const { handleUpDateQuantity } = useContext(CartContext)
 
     useEffect(() => {
         calcTotalPrice()

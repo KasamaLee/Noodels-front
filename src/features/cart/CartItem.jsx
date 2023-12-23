@@ -12,6 +12,7 @@ import { OrderContext } from '../../contexts/OrderContext';
 export default function CartItem({ id, imageUrl, name, price, initialQuantity, maxQuantity }) {
 
     const { selectedItems, handleCheckbox } = useContext(OrderContext);
+    const { handleDeleteCartItem } = useContext(CartContext);
 
     return (
         <div className='relative flex items-center w-2/3 gap-6'>
@@ -43,6 +44,7 @@ export default function CartItem({ id, imageUrl, name, price, initialQuantity, m
                 )}
 
                 <button
+                    onClick={() => handleDeleteCartItem(id)}
                     className='z-10 ml-6 text-sm ring-2 ring-black text-black px-3 py-1 bg-gray-300 rounded-3xl flex justify-center items-center gap-1 hover:text-red-500 hover:ring-red-500'>
                     Delete <FontAwesomeIcon icon={faTrash} size='1x' />
                 </button>
