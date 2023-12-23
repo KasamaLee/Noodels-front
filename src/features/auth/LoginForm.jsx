@@ -3,8 +3,54 @@ import { useContext } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
 import Input from './FormInput';
 import { useState } from 'react';
+import { GoogleLogin, GoogleLogout } from "react-google-login";
+import { gapi } from "gapi-script";
+import { useEffect } from 'react';
+import axios from 'axios';
+
 
 export default function LoginForm({ setIsRegister, onCloseModal }) {
+
+  const clientId = "572207410517-5je8gdql4jqq4stlmr2sudgs92bmabtu.apps.googleusercontent.com"
+
+  useEffect(() => {
+    const initClient = () => {
+      gapi.client.init({
+        clientId: clientId,
+        scope: ''
+      })
+    }
+    gapi.load("client:auth2", initClient)
+  }, [])
+
+  const onSuccess = async (res) => {
+    console.log('-------')
+    console.log(res.profileObj)
+    const data = {
+      userName: res.profileObj.givenName,
+      email: res.profileObj.email,
+      googleId: res.profileObj.googleId,
+      imageUrl: res.profileObj.imageUrl
+    }
+    const response = await axios.post('/auth/googleLogin', data)
+    console.log(response)
+
+    // เอา token ไปแปะใส่ localStorage
+    addAccessToken(token);
+    setAuthUser(response.data.user)
+    onCloseModal();
+  }
+
+  const onFailure = (res) => {
+    alert('Log in with Google Failed')
+    console.log('failed', res)
+  }
+
+  const googleLogout = () => {
+    setProfile(null)
+  }
+
+  const [profile, setProfile] = useState([])
 
   const { login } = useContext(AuthContext);
 
@@ -20,6 +66,22 @@ export default function LoginForm({ setIsRegister, onCloseModal }) {
 
   return (
     <>
+      <GoogleLogin
+        clientId={clientId}
+        buttonText='Sign in with Google'
+        onSuccess={onSuccess}
+        onFailure={onFailure}
+        cookiePolicy="single_host_origin"
+        isSignedIn={true}
+      />
+
+      <GoogleLogout
+        clientId={clientId}
+        buttonText='Log out'
+        onLogoutSuccess={googleLogout}
+      />
+
+
       <form onSubmit={handleLoginForm} className="flex flex-col gap-4 m-auto w-[500px] min-w-[240px]">
 
         <h6 className="text-lg text-gray-600">Welcome back!</h6 >
@@ -33,7 +95,7 @@ export default function LoginForm({ setIsRegister, onCloseModal }) {
             onChange={e => setInput({ ...input, email: e.target.value })}
           />
         </div>
-        
+
         <div>
           <label className='text-xs text-gray-500'>Password</label>
           <Input

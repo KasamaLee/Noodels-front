@@ -5,22 +5,27 @@ import ContactPage from '../pages/ContactPage'
 import CartContextProvider from '../contexts/CartContext'
 import ProductContextProvider from '../contexts/ProductContext'
 import CartPage from '../pages/CartPage'
+import OrderContextProvider from '../contexts/OrderContext'
+import PaymentPage from '../pages/PaymentPage'
 
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: (
-            <ProductContextProvider>
-                <CartContextProvider>
-                    <Layout />
-                </CartContextProvider>
-            </ProductContextProvider>
+                <ProductContextProvider>
+                    <CartContextProvider>
+                        <OrderContextProvider>
+                            <Layout />
+                        </OrderContextProvider>
+                    </CartContextProvider>
+                </ProductContextProvider>
         ),
         children: [
             { path: '', element: <HomePage /> },
             { path: 'contact', element: <ContactPage /> },
             { path: 'cart', element: <CartPage /> },
+            { path: 'payment', element: <PaymentPage /> },
         ]
     }
 ])

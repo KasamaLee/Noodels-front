@@ -74,6 +74,7 @@ export default function AuthContextProvider({ children }) {
     const logout = () => {
         removeAccessToken()
         setAuthUser(null);
+        
     }
 
     // console.log(authUser)

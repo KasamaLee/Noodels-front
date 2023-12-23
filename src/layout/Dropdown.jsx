@@ -6,6 +6,7 @@ import { faSignOutAlt, faChevronDown, faClockRotateLeft } from '@fortawesome/fre
 import { useEffect } from 'react';
 import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dropdown() {
 
@@ -26,6 +27,7 @@ export default function Dropdown() {
         return () => document.removeEventListener('click', handleClickOutside);
     }, [])
 
+    const navigate = useNavigate();
 
 
     return (

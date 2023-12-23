@@ -6,14 +6,16 @@ import { AuthContext } from '../contexts/AuthContext';
 import CatNotFound from '../components/CatNotFound'
 import CartItem from '../features/cart/CartItem';
 import CartFooter from '../features/cart/CartFooter';
+import { OrderContext } from '../contexts/OrderContext';
 
 export default function CartPage() {
 
 	const { authUser } = useContext(AuthContext);
 	const { cartData } = useContext(CartContext);
-	console.log(cartData)
+	const { selectedItems } = useContext(OrderContext);
+	// console.log(cartData)
 
-	// Mutated
+	// cartData will be Mutated
 	const sortedCartItems = cartData?.CartItem.sort((a, b) => {
 		if (a.product.stockQuantity === 0) return 1        // IF a:0 ==> move a BEHIND b
 		if (b.product.stockQuantity === 0) return -1       // IF b:0 ==> move a BEFORE b
@@ -24,8 +26,6 @@ export default function CartPage() {
 	return (
 		<section className='section py-28'>
 			<div className='container flex flex-col items-center gap-8'>
-
-
 
 				{authUser ? (
 					<>
@@ -49,15 +49,15 @@ export default function CartPage() {
 					<>
 						<h4 className='pt-24 text-2xl text-center'>
 							Your cart is empty, <br />
-							Login to see your cart
+							Continue shopping
 						</h4>
 						<CatNotFound />
 					</>
 				)}
 
 			</div>
+			{selectedItems.length > 0 && <CartFooter />}
 
-			<CartFooter />
 		</section>
 	)
 }

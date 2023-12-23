@@ -6,9 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useEffect } from 'react';
 import CartCounter from './CartCounter';
+import { useState } from 'react';
+import { OrderContext } from '../../contexts/OrderContext';
 
 export default function CartItem({ id, imageUrl, name, price, initialQuantity, maxQuantity }) {
 
+    const { selectedItems, handleCheckbox } = useContext(OrderContext);
 
     return (
         <div className='relative flex items-center w-2/3 gap-6'>
@@ -40,7 +43,7 @@ export default function CartItem({ id, imageUrl, name, price, initialQuantity, m
                 )}
 
                 <button
-                    className='z-10 ml-6 text-sm ring-2 ring-black text-black px-3 py-1 bg-gray-300 rounded-3xl flex justify-center items-center gap-1 hover:text-red-600'>
+                    className='z-10 ml-6 text-sm ring-2 ring-black text-black px-3 py-1 bg-gray-300 rounded-3xl flex justify-center items-center gap-1 hover:text-red-500 hover:ring-red-500'>
                     Delete <FontAwesomeIcon icon={faTrash} size='1x' />
                 </button>
             </div>
@@ -49,8 +52,9 @@ export default function CartItem({ id, imageUrl, name, price, initialQuantity, m
                 <input
                     className='absolute -right-14 w-6 h-6 accent-amber-600 border-2 bg-gray-100 border-gray-300 rounded-lg focus:ring-amber-500 dark:focus:ring-amber-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
                     type="checkbox"
-                    // checked={checkedItems[eachCart.id] || false}
-                    onChange={() => handleCheckboxChange(eachCart.id)}
+                    // checked={true}
+                    checked={selectedItems.includes(id)}
+                    onChange={() => handleCheckbox(id)}
                 />
             }
         </div>

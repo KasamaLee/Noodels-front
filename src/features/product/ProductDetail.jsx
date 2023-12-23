@@ -19,9 +19,8 @@ export default function ProductDetail({ productId }) {
 
     const {
         productCount, setProductCount,
-        cartItems, setCartItems,
         productTotalPrice, setProductTotalPrice,
-        handleAddToCart
+        handleAddToCart,
     } = useContext(CartContext);
 
 

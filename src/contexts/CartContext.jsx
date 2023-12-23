@@ -10,15 +10,14 @@ export const CartContext = createContext();
 export default function CartContextProvider({ children }) {
 
     const [productCount, setProductCount] = useState(1);
-    const [cartItems, setCartItems] = useState([]);
+    const [cartItems, setCartItems] = useState();
     const [productTotalPrice, setProductTotalPrice] = useState();
-
     const [cartData, setCartData] = useState();
 
 
-    useEffect(() => {
-        fetchCart()
-    }, [])
+    // useEffect(() => {
+    //     fetchCart()
+    // }, [])
 
 
     const fetchCart = async () => {
@@ -26,25 +25,39 @@ export default function CartContextProvider({ children }) {
         setCartData(response.data.cart)
     }
 
-    const handleAddToCart = (selectedProductId) => {
+    const handleAddToCart = async (selectedProductId) => {
+        try {
+            const newCartItem = {
+                productId: selectedProductId,
+                quantity: productCount,
+                price: productTotalPrice
+            }
 
-        const newCartItem = {
-            productId: selectedProductId,
-            quantity: productCount,
-            price: productTotalPrice
+            const response = await axios.post('/cart/add', newCartItem)
+            // console.log(response)
+
+            if (response.status === 200) {
+                fetchCart()
+            }
+
+        } catch (err) {
+            console.error("Error adding to cart:", err);
         }
-        const updatedCartItems = [...cartItems, newCartItem]
+    }
 
-        setCartItems(updatedCartItems)
-        // console.log('updatedCartItems', updatedCartItems)
+    const handleUpDateQuantity = async (cartItemId, quantity) => {
+        const response = await axios.patch('', { cartItemId, quantity })
+    }
 
-        const requestBody = {
-            CartItem: updatedCartItems
+    const handleDeleteCartItem = async (cartItemId) => {
+        try {
+            const response = await axios.delete(`/cart/delete/${cartItemId}`)
+            if (response.status === 200) {
+                fetchCart()
+            }
+        } catch (err) {
+            console.error("Error deleting cart:", err);
         }
-        // console.log({requestBody})
-
-        const response = axios.post('/cart/add', requestBody)
-        console.log(response)
     }
 
     return (
@@ -54,7 +67,8 @@ export default function CartContextProvider({ children }) {
                 cartItems, setCartItems,
                 productTotalPrice, setProductTotalPrice,
                 handleAddToCart,
-                cartData, setCartData
+                cartData, setCartData,
+                fetchCart
             }}
         >
             {children}

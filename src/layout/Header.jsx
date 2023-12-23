@@ -7,12 +7,19 @@ import { AuthContext } from '../contexts/AuthContext';
 import Modal from '../components/Modal';
 import LoginOrRegister from '../features/auth/LoginOrRegister';
 import { CartContext } from '../contexts/CartContext';
+import { useEffect } from 'react';
 
 
 export default function Header() {
 
 	const { authUser, isOpenLoginModal, setIsOpenLoginModal } = useContext(AuthContext);
-	const { cartData } = useContext(CartContext);
+	const { cartData, fetchCart } = useContext(CartContext);
+console.log(authUser)
+
+useEffect(() => {
+	if(authUser)fetchCart()
+}, [])
+
 
 	const navigate = useNavigate();
 
@@ -38,13 +45,20 @@ export default function Header() {
 							}}>
 							Contact
 						</li>
-						<li
-							className={`cursor-pointer flex justify-center items-center px-3 py-1 gap-1 hover:ring-white hover:ring-2 hover:rounded-3xl`}
-							onClick={() => {
-								navigate('cart')
-							}}>
-							<FontAwesomeIcon icon={faCartShopping} size='1x' />
-						</li>
+						{authUser &&
+							<li
+								className={`relative cursor-pointer flex justify-center items-center px-3 py-1 gap-1 hover:ring-white hover:ring-2 hover:rounded-3xl`}
+								onClick={() => {
+									navigate('/cart')
+								}}>
+								{cartData?.CartItem.length > 0 &&
+									<div className='absolute bg-amber-500 rounded-full right-1 -top-1.5 h-[16px] px-[4px] pt-[1px] text-sm  text-center flex items-center justify-center'>
+										{cartData?.CartItem.length}
+									</div>
+								}
+								<FontAwesomeIcon icon={faCartShopping} size='1x' />
+							</li>
+						}
 						<li>
 							{authUser ? (
 								<Dropdown />
