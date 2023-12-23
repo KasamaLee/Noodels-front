@@ -43,6 +43,34 @@ export default function AuthContextProvider({ children }) {
         }
     }
 
+    const onGoogleSuccess = async (res, onCloseModal) => {
+        // console.log(res.profileObj)
+        const data = {
+            userName: res.profileObj.givenName,
+            email: res.profileObj.email,
+            googleId: res.profileObj.googleId,
+        }
+        try {
+            const response = await axios.post('/auth/googleLogin', data)
+            // console.log(response)
+
+            const token = response.data.accessToken;
+
+            // เอา token ไปแปะใส่ localStorage
+            addAccessToken(token);
+            setAuthUser(response.data.user)
+            onCloseModal();
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const onGoogleFailure = (res) => {
+        alert('Log in with Google Failed')
+        console.log('failed', res)
+    }
+
     const register = async (registerData, onCloseModal) => {
         const response = await axios.post('/auth/register', registerData);
 
@@ -74,7 +102,7 @@ export default function AuthContextProvider({ children }) {
     const logout = () => {
         removeAccessToken()
         setAuthUser(null);
-        
+
     }
 
     // console.log(authUser)
@@ -88,6 +116,7 @@ export default function AuthContextProvider({ children }) {
                 login,
                 logout,
                 authUser,
+                onGoogleSuccess, onGoogleFailure
             }}
         >
             {children}

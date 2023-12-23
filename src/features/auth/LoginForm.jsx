@@ -3,11 +3,10 @@ import { useContext } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
 import Input from './FormInput';
 import { useState } from 'react';
-import { GoogleLogin, GoogleLogout } from "react-google-login";
-import { gapi } from "gapi-script";
 import { useEffect } from 'react';
-import axios from 'axios';
-
+import { GoogleLogin } from "react-google-login";
+import { gapi } from "gapi-script";
+import  googleLogo  from '../../assets/images/google.png'
 
 export default function LoginForm({ setIsRegister, onCloseModal }) {
 
@@ -23,36 +22,8 @@ export default function LoginForm({ setIsRegister, onCloseModal }) {
     gapi.load("client:auth2", initClient)
   }, [])
 
-  const onSuccess = async (res) => {
-    console.log('-------')
-    console.log(res.profileObj)
-    const data = {
-      userName: res.profileObj.givenName,
-      email: res.profileObj.email,
-      googleId: res.profileObj.googleId,
-      imageUrl: res.profileObj.imageUrl
-    }
-    const response = await axios.post('/auth/googleLogin', data)
-    console.log(response)
 
-    // เอา token ไปแปะใส่ localStorage
-    addAccessToken(token);
-    setAuthUser(response.data.user)
-    onCloseModal();
-  }
-
-  const onFailure = (res) => {
-    alert('Log in with Google Failed')
-    console.log('failed', res)
-  }
-
-  const googleLogout = () => {
-    setProfile(null)
-  }
-
-  const [profile, setProfile] = useState([])
-
-  const { login } = useContext(AuthContext);
+  const { login, onGoogleSuccess, onGoogleFailure } = useContext(AuthContext);
 
   const [input, setInput] = useState({
     email: '',
@@ -66,22 +37,6 @@ export default function LoginForm({ setIsRegister, onCloseModal }) {
 
   return (
     <>
-      <GoogleLogin
-        clientId={clientId}
-        buttonText='Sign in with Google'
-        onSuccess={onSuccess}
-        onFailure={onFailure}
-        cookiePolicy="single_host_origin"
-        isSignedIn={true}
-      />
-
-      <GoogleLogout
-        clientId={clientId}
-        buttonText='Log out'
-        onLogoutSuccess={googleLogout}
-      />
-
-
       <form onSubmit={handleLoginForm} className="flex flex-col gap-4 m-auto w-[500px] min-w-[240px]">
 
         <h6 className="text-lg text-gray-600">Welcome back!</h6 >
@@ -117,6 +72,24 @@ export default function LoginForm({ setIsRegister, onCloseModal }) {
           or
         </span>
       </div>
+
+      <GoogleLogin
+        clientId={clientId}
+        buttonText='Continue with Google'
+        onSuccess={(res) => onGoogleSuccess(res, onCloseModal)}
+        onFailure={onGoogleFailure}
+        cookiePolicy="single_host_origin"
+        isSignedIn={false}
+        render={renderProps => (
+          <button
+            onClick={renderProps.onClick}
+            disabled={renderProps.disabled}
+            className="mx-auto mb-6 text-sm ring-2 ring-gray-500 hover:bg-amber-200 text-black font-bold py-3 px-6 rounded flex justify-center items-center gap-3">
+            <img className='w-6 h-6' src={googleLogo} alt='google-logo' />
+            Continue with Google
+          </button>
+        )}
+      />
 
       <div className="text-center">
         <span className="text-gray-500">Don’t have an account?</span>
