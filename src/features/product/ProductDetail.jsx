@@ -1,14 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faPlus, faSquarePlus, faSquareMinus } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faSquarePlus, faSquareMinus } from '@fortawesome/free-solid-svg-icons';
 import { useContext } from 'react';
 import { ProductContext } from '../../contexts/ProductContext';
 import { CartContext } from '../../contexts/CartContext';
 import { useEffect } from 'react';
+import SuccessAnimation from '../../components/SuccessAnimation'
+import { useState } from 'react';
 
 export default function ProductDetail({ productId }) {
 
     const {
-        isOpenModal,setIsOpenModal,
+        isOpenModal, setIsOpenModal,
         selectedProductId,
         selectedProductImageUrl,
         selectedProductName,
@@ -18,10 +20,14 @@ export default function ProductDetail({ productId }) {
     } = useContext(ProductContext);
 
     const {
+        cartData,
         productCount, setProductCount,
         productTotalPrice, setProductTotalPrice,
         handleAddToCart,
+        handleUpDateQuantity
     } = useContext(CartContext);
+
+    const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
 
 
     useEffect(() => {
@@ -55,8 +61,32 @@ export default function ProductDetail({ productId }) {
         setProductTotalPrice(productCount * selectedProductPrice)
     }
 
+    const addToCart = () => {
+        const existedCartItem = cartData?.CartItem.find(item => (item.productId) === (selectedProductId))
+        // console.log(existedCartItem)
+
+        if (existedCartItem) {
+            const newQuantity = existedCartItem.quantity + productCount;
+            const newTotalPrice = existedCartItem.price + productTotalPrice
+            handleUpDateQuantity(existedCartItem.id, newQuantity, newTotalPrice)
+        } else {
+            handleAddToCart(selectedProductId)
+        }
+    }
+
+    const handleSuccess = () => {
+        setShowSuccessAnimation(true)
+
+        setTimeout(() => {
+            setShowSuccessAnimation(false);
+            setIsOpenModal(false)
+        }, 600)
+
+
+    }
+
     return (
-        <div className='flex gap-8'>
+        <div className='flex gap-8 relative'>
             {selectedProductImageUrl ? (
                 <img src={selectedProductImageUrl} className='w-[500px] object-cover rounded-xl' />
             ) : (
@@ -94,14 +124,15 @@ export default function ProductDetail({ productId }) {
                 <button
                     className='mt-4 w-56 ring-4 ring-black text-black px-6 py-2 bg-amber-400 rounded-3xl text-2xl font-semibold flex justify-center items-center gap-2 hover:gap-4'
                     onClick={() => {
-                        handleAddToCart(selectedProductId)
-                        setIsOpenModal(false)
+                        addToCart()
+                        handleSuccess()
                     }}
                 >
                     Add to cart
                     <FontAwesomeIcon icon={faCartShopping} size='1x' />
                 </button>
             </div>
+            {showSuccessAnimation && <SuccessAnimation />}
         </div>
     )
 }

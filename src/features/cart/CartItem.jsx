@@ -1,6 +1,5 @@
 import React from 'react'
 import { useContext } from 'react';
-import { ProductContext } from '../../contexts/ProductContext';
 import { CartContext } from '../../contexts/CartContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -8,11 +7,16 @@ import { useEffect } from 'react';
 import CartCounter from './CartCounter';
 import { useState } from 'react';
 import { OrderContext } from '../../contexts/OrderContext';
+import { ProductContext } from '../../contexts/ProductContext';
+import Modal from '../../components/Modal';
 
-export default function CartItem({ id, imageUrl, name, price, initialQuantity, maxQuantity }) {
+
+export default function CartItem({ id, imageUrl, name, totalPrice, initialQuantity, maxQuantity, price }) {
 
     const { selectedItems, handleCheckbox } = useContext(OrderContext);
-    const { handleDeleteCartItem } = useContext(CartContext);
+    const { handleDeleteCartItem, deletingItemId, setDeletingItemId } = useContext(CartContext);
+    const { isOpenModal, setIsOpenModal } = useContext(ProductContext)
+
 
     return (
         <div className='relative flex items-center w-2/3 gap-6'>
@@ -22,7 +26,7 @@ export default function CartItem({ id, imageUrl, name, price, initialQuantity, m
 
                 <div className='grow flex flex-col'>
                     <p className='text-lg font-semibold'>{name}</p>
-                    <p>Price: {price}</p>
+                    <p>Price: {totalPrice}</p>
                     <p>Quantity: {initialQuantity}</p>
                 </div>
 
@@ -32,6 +36,7 @@ export default function CartItem({ id, imageUrl, name, price, initialQuantity, m
                             id={id}
                             initialQuantity={initialQuantity}
                             maxQuantity={maxQuantity}
+                            totalPrice={totalPrice}
                             price={price}
                         />
                     </>
@@ -44,13 +49,17 @@ export default function CartItem({ id, imageUrl, name, price, initialQuantity, m
                 )}
 
                 <button
-                    onClick={() => handleDeleteCartItem(id)}
+                    onClick={() => {
+                        setDeletingItemId(id)
+                        setIsOpenModal(true)
+                    }}
                     className='z-10 ml-6 text-sm ring-2 ring-black text-black px-3 py-1 bg-gray-300 rounded-3xl flex justify-center items-center gap-1 hover:text-red-500 hover:ring-red-500'>
                     Delete <FontAwesomeIcon icon={faTrash} size='1x' />
                 </button>
             </div>
 
-            {maxQuantity > 0 &&
+            {
+                maxQuantity > 0 &&
                 <input
                     className='absolute -right-14 w-6 h-6 accent-amber-600 border-2 bg-gray-100 border-gray-300 rounded-lg focus:ring-amber-500 dark:focus:ring-amber-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
                     type="checkbox"
@@ -59,7 +68,23 @@ export default function CartItem({ id, imageUrl, name, price, initialQuantity, m
                     onChange={() => handleCheckbox(id)}
                 />
             }
-        </div>
+
+            <Modal isOpenModal={isOpenModal} onCloseModal={() => setIsOpenModal(!isOpenModal)}>
+                <div className='flex flex-col items-center gap-4'>
+                    <h4 className='text-3xl text-center text-amber-500'>Delete Product?</h4>
+                    <button
+                        className='ml-6 text-sm ring-2 ring-black text-black px-3 py-1 bg-gray-300 rounded-3xl flex justify-center items-center gap-1'
+                        onClick={() => {
+                            handleDeleteCartItem(deletingItemId)
+                            setIsOpenModal(false)
+                        }}
+                    >
+                        Delete
+                        <FontAwesomeIcon icon={faTrash} size='1x' />
+                    </button>
+                </div>
+            </Modal>
+        </div >
 
     )
 }

@@ -14,11 +14,11 @@ export default function Header() {
 
 	const { authUser, isOpenLoginModal, setIsOpenLoginModal } = useContext(AuthContext);
 	const { cartData, fetchCart } = useContext(CartContext);
-console.log(authUser)
+	// console.log(authUser)
 
-useEffect(() => {
-	if(authUser)fetchCart()
-}, [])
+	useEffect(() => {
+		if (authUser) fetchCart()
+	}, [])
 
 
 	const navigate = useNavigate();

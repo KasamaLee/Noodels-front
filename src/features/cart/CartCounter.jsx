@@ -9,35 +9,46 @@ import { useState } from 'react';
 import Modal from '../../components/Modal';
 
 
-export default function CartCounter({ id, initialQuantity, maxQuantity, price }) {
+export default function CartCounter({ id, initialQuantity, maxQuantity, totalPrice, price }) {
+
 
     const [currentQuantity, setCurrentQuantity] = useState(initialQuantity);
-    const [currentPrice, setCurrentPrice] = useState(price)
+    const [currentPrice, setCurrentPrice] = useState(totalPrice)
 
     const { isOpenModal, setIsOpenModal } = useContext(ProductContext)
-    const { handleUpDateQuantity } = useContext(CartContext)
-
-    useEffect(() => {
-        calcTotalPrice()
-    }, [currentQuantity]);
+    const { handleUpDateQuantity, deletingItemId, setDeletingItemId } = useContext(CartContext)
 
 
     const increment = () => {
         if (currentQuantity < maxQuantity) {
-            setCurrentQuantity(currentQuantity + 1)
+            setCurrentQuantity((prevQuantity) => {
+                const newQuantity = prevQuantity + 1
+                const newPrice = newQuantity * price
+
+                setCurrentPrice(newPrice)
+                handleUpDateQuantity(id, newQuantity, newPrice)
+                return newQuantity
+            })
         }
     }
 
     const decrement = () => {
-
         if (currentQuantity > 1) {
-            setCurrentQuantity(currentQuantity - 1)
+            setCurrentQuantity(prevQuantity => {
+                const newQuantity = prevQuantity - 1
+                const newPrice = newQuantity * price
+
+                setCurrentPrice(newPrice)
+                handleUpDateQuantity(id, newQuantity, newPrice)
+                return newQuantity
+            })
         } else {
+            setDeletingItemId(id)
             setIsOpenModal(true)
         }
     }
 
-    const calcTotalPrice = () => {
+    const calcTotalPrice = (quantity) => {
         setCurrentPrice(currentQuantity * price)
     }
 
@@ -58,14 +69,7 @@ export default function CartCounter({ id, initialQuantity, maxQuantity, price })
                 />
             </div>
 
-            <Modal isOpenModal={isOpenModal} onCloseModal={() => setIsOpenModal(!isOpenModal)}>
-                <h4 className='text-3xl text-center text-amber-500'>Delete Product?</h4>
-                <button
-                    className='ml-6 text-sm ring-2 ring-black text-black px-3 py-1 bg-gray-300 rounded-3xl flex justify-center items-center gap-1'>
-                    Delete
-                    <FontAwesomeIcon icon={faTrash} size='1x' />
-                </button>
-            </Modal>
+
         </>
     )
 }

@@ -1,13 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { CartContext } from '../../contexts/CartContext';
 
 export default function CartFooter() {
 
     const navigate = useNavigate()
+    const {selectedCartItemTotalPrice, setSelectedCartItemTotalPrice} = useContext(CartContext)
 
     return (
-        <div className='fixed z-20 bottom-0 left-0 right-0 bg-white border-t-4 border-t-amber-500 py-5'>
+        <div className='section fixed z-20 bottom-0 left-0 right-0 bg-white border-t-4 border-t-amber-500 py-5'>
             <div className='container flex justify-between items-center'>
                 <h4 className='text-3xl text-center text-amber-500'>Total Price : { }</h4>
                 <button

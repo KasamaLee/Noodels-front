@@ -21,7 +21,7 @@ export default function CartPage() {
 		if (b.product.stockQuantity === 0) return -1       // IF b:0 ==> move a BEFORE b
 		return 0;                                          // BOTH a b are NOT 0 ==> No change
 	})
-	console.log(sortedCartItems)
+	// console.log(sortedCartItems)
 
 	return (
 		<section className='section py-28'>
@@ -37,9 +37,10 @@ export default function CartPage() {
 									id={eachCart.id}
 									imageUrl={eachCart.product.imageUrl}
 									name={eachCart.product.name}
-									price={eachCart.price}
+									totalPrice={eachCart.price}
 									initialQuantity={eachCart.quantity}
 									maxQuantity={eachCart.product.stockQuantity}
+									price={eachCart.product.price}
 								/>
 							)
 						})}

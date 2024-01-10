@@ -5,6 +5,10 @@ import Joi from 'joi';
 import Input from './FormInput';
 import InputErrorMessage from './InputErrorMessage'
 import { useState } from 'react';
+import { GoogleLogin } from "react-google-login";
+import { gapi } from "gapi-script";
+import googleLogo from '../../assets/images/google.png'
+import { useEffect } from 'react';
 
 export default function RegisterForm({ setIsRegister, onCloseModal }) {
 
@@ -35,6 +39,21 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
 		}
 	}
 
+
+	const clientId = "572207410517-5je8gdql4jqq4stlmr2sudgs92bmabtu.apps.googleusercontent.com"
+	const { login, onGoogleSuccess, onGoogleFailure } = useContext(AuthContext);
+
+	useEffect(() => {
+		const initClient = () => {
+			gapi.client.init({
+				clientId: clientId,
+				scope: ''
+			})
+		}
+		gapi.load("client:auth2", initClient)
+	}, [])
+
+
 	const { register } = useContext(AuthContext)
 	const [error, setError] = useState({})
 	const [input, setInput] = useState({
@@ -61,7 +80,7 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
 
 	return (
 		<form onSubmit={handleRegisterForm} className="flex flex-col gap-4 w-[500px]">
-			
+
 			<h4 className="text-xl text-gray-600">Register</h4 >
 
 			<div className="flex gap-2 justify-between">
@@ -139,6 +158,24 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
 					or
 				</span>
 			</div>
+
+			<GoogleLogin
+				clientId={clientId}
+				buttonText='Continue with Google'
+				onSuccess={(res) => onGoogleSuccess(res, onCloseModal)}
+				onFailure={onGoogleFailure}
+				cookiePolicy="single_host_origin"
+				isSignedIn={false}
+				render={renderProps => (
+					<button
+						onClick={renderProps.onClick}
+						disabled={renderProps.disabled}
+						className="mx-auto mb-6 text-sm ring-2 ring-gray-500 hover:bg-amber-200 text-black font-bold py-3 px-6 rounded flex justify-center items-center gap-3">
+						<img className='w-6 h-6' src={googleLogo} alt='google-logo' />
+						Continue with Google
+					</button>
+				)}
+			/>
 
 			<div className="text-center">
 				<span className="text-gray-500">Already have an account?</span>

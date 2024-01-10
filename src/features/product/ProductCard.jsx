@@ -20,7 +20,7 @@ export default function ProductCard({ productId, imageUrl, name, desc, price, st
     return (
         <>
             <div
-                className='rounded-2xl overflow-hidden bg-white ring-4 ring-gray-500 p-4 flex flex-col gap-4 cursor-pointer hover:ring-amber-400'
+                className='relative rounded-2xl overflow-hidden bg-white ring-4 ring-gray-500 p-4 flex flex-col gap-4 cursor-pointer hover:ring-amber-400'
                 onClick={() => {
                     setSelectedProductId(productId)
                     setSelectedProductImageUrl(imageUrl)
@@ -28,7 +28,7 @@ export default function ProductCard({ productId, imageUrl, name, desc, price, st
                     setSelectedProductDesc(desc)
                     setSelectedProductPrice(price)
                     setSelectedProductStockQuantity(stockQuantity)
-                    setIsOpenModal(true)
+                    if (stockQuantity > 0) setIsOpenModal(true)
                 }}
             >
                 {imageUrl ? (
@@ -45,10 +45,19 @@ export default function ProductCard({ productId, imageUrl, name, desc, price, st
                         <h6 className='text-xl text-amber-500'>{price} &#3647;</h6>
                     </div>
                 </div>
+
+
+                {stockQuantity <= 0 && (
+                    <div className='absolute z-10 w-full h-full left-0 top-0 flex items-center justify-center'>
+                        <h4 className='z-10 text-2xl text-center text-red-900'>Temporary out of stock</h4>
+                        <div className='absolute bg-red-300 opacity-60 w-full h-full '>
+                        </div>
+                    </div>
+                )}
             </div>
 
             <Modal isOpenModal={isOpenModal} onCloseModal={() => setIsOpenModal(!isOpenModal)}>
-                <ProductDetail/>
+                <ProductDetail />
             </Modal>
         </>
     )
