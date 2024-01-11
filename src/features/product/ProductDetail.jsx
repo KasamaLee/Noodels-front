@@ -6,6 +6,7 @@ import { CartContext } from '../../contexts/CartContext';
 import { useEffect } from 'react';
 import SuccessAnimation from '../../components/SuccessAnimation'
 import { useState } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function ProductDetail({ productId }) {
 
@@ -26,6 +27,8 @@ export default function ProductDetail({ productId }) {
         handleAddToCart,
         handleUpDateQuantity
     } = useContext(CartContext);
+
+    const { authUser, setIsOpenLoginModal } = useContext(AuthContext)
 
     const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
 
@@ -62,6 +65,10 @@ export default function ProductDetail({ productId }) {
     }
 
     const addToCart = () => {
+        if (!authUser) {
+         return setIsOpenLoginModal(true)
+        }
+
         const existedCartItem = cartData?.CartItem.find(item => (item.productId) === (selectedProductId))
         // console.log(existedCartItem)
 
@@ -72,6 +79,7 @@ export default function ProductDetail({ productId }) {
         } else {
             handleAddToCart(selectedProductId)
         }
+        handleSuccess()
     }
 
     const handleSuccess = () => {
@@ -125,7 +133,7 @@ export default function ProductDetail({ productId }) {
                     className='mt-4 w-56 ring-4 ring-black text-black px-6 py-2 bg-amber-400 rounded-3xl text-2xl font-semibold flex justify-center items-center gap-2 hover:gap-4'
                     onClick={() => {
                         addToCart()
-                        handleSuccess()
+                        // handleSuccess()
                     }}
                 >
                     Add to cart
