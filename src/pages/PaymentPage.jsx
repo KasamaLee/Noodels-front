@@ -36,7 +36,6 @@ export default function PaymentPage() {
         try {
             setInitialLoading(true)
             const reqBody = new FormData();
-
             reqBody.append('paymentType', 'QR_CODE');
             reqBody.append('image', file);
             reqBody.append('totalPrice', selectedTotalPrice)
@@ -47,8 +46,7 @@ export default function PaymentPage() {
             // }
 
             const response = await axios.post('/order/create', reqBody);
-            console.log(response)
-
+            // console.log(response)
         } catch (err) {
             console.log(err)
         } finally {
@@ -64,6 +62,7 @@ export default function PaymentPage() {
         clientSecret,
         appearance,
     };
+
 
     useEffect(() => {
         resetFile()

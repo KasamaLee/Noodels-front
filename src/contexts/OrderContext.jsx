@@ -7,6 +7,7 @@ export default function OrderContextProvider({ children }) {
 
     const [selectedItems, setSelectedItems] = useState([])
     const [selectedTotalPrice, setSelectedTotalPrice] = useState(0);
+    
 
     const handleCheckbox = (selectedItem) => {
         let newSelectedItems = selectedItems;

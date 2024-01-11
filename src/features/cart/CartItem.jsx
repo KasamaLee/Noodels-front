@@ -12,11 +12,11 @@ import Modal from '../../components/Modal';
 
 
 export default function CartItem({ eachCart }) {
-    
+
     const { selectedItems, handleCheckbox } = useContext(OrderContext);
     const { handleDeleteCartItem, deletingItemId, setDeletingItemId } = useContext(CartContext);
     const { isOpenModal, setIsOpenModal } = useContext(ProductContext)
-    
+
 
     const initialQuantity = eachCart.quantity;
     const maxQuantity = eachCart.product.stockQuantity;
@@ -25,7 +25,11 @@ export default function CartItem({ eachCart }) {
         <div className='relative flex items-center w-2/3 gap-6'>
             <div className="relative p-6 grow flex items-center gap-8 ring-4 ring-gray-500 bg-white rounded-xl overflow-hidden">
 
-                <img src={eachCart.product.imageUrl} alt='cartItem image' className='w-24 h-24 object-cover rounded-lg' />
+                {eachCart.product.imageUrl ? (
+                    <img src={eachCart.product.imageUrl} alt='cartItem image' className='w-24 h-24 object-cover rounded-lg' />
+                ) : (
+                    <div className='bg-gray-400 w-24 h-24 rounded-xl'></div>
+                )}
 
                 <div className='grow flex flex-col'>
                     <p className='text-lg font-semibold'>{eachCart.product.name}</p>

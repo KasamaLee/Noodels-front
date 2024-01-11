@@ -7,12 +7,13 @@ import CatNotFound from '../components/CatNotFound'
 import CartItem from '../features/cart/CartItem';
 import CartFooter from '../features/cart/CartFooter';
 import { OrderContext } from '../contexts/OrderContext';
+import { useEffect } from 'react';
 
 export default function CartPage() {
 
 	const { authUser } = useContext(AuthContext);
 	const { cartData } = useContext(CartContext);
-	const { selectedItems } = useContext(OrderContext);
+	const { selectedItems, setSelectedItems } = useContext(OrderContext);
 	// console.log(cartData?.CartItem)
 
 	// cartData will be Mutated
@@ -22,6 +23,10 @@ export default function CartPage() {
 		return 0;                                          // BOTH a b are NOT 0 ==> No change
 	})
 	// console.log(sortedCartItems)
+
+    useEffect(() => {
+        setSelectedItems([])
+    },[])
 
 	return (
 		<section className='section py-28'>
