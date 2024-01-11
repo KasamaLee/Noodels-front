@@ -13,7 +13,7 @@ export default function CartPage() {
 	const { authUser } = useContext(AuthContext);
 	const { cartData } = useContext(CartContext);
 	const { selectedItems } = useContext(OrderContext);
-	// console.log(cartData)
+	// console.log(cartData?.CartItem)
 
 	// cartData will be Mutated
 	const sortedCartItems = cartData?.CartItem.sort((a, b) => {
@@ -34,13 +34,7 @@ export default function CartPage() {
 							return (
 								<CartItem
 									key={uuidv4()}
-									id={eachCart.id}
-									imageUrl={eachCart.product.imageUrl}
-									name={eachCart.product.name}
-									totalPrice={eachCart.price}
-									initialQuantity={eachCart.quantity}
-									maxQuantity={eachCart.product.stockQuantity}
-									price={eachCart.product.price}
+									eachCart={eachCart}
 								/>
 							)
 						})}

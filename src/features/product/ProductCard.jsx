@@ -49,7 +49,7 @@ export default function ProductCard({ productId, imageUrl, name, desc, price, st
 
                 {stockQuantity <= 0 && (
                     <div className='absolute z-10 w-full h-full left-0 top-0 flex items-center justify-center'>
-                        <h4 className='z-10 text-2xl text-center text-red-900'>Temporary out of stock</h4>
+                        <h4 className='z-10 -rotate-[17deg] text-2xl text-center text-red-900'>Temporary out of stock</h4>
                         <div className='absolute bg-red-300 opacity-60 w-full h-full '>
                         </div>
                     </div>

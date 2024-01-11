@@ -6,23 +6,32 @@ export const OrderContext = createContext();
 export default function OrderContextProvider({ children }) {
 
     const [selectedItems, setSelectedItems] = useState([])
-    const [totalPrice, setTotalPrice] = useState(0);
+    const [selectedTotalPrice, setSelectedTotalPrice] = useState(0);
 
-    const handleCheckbox = (selectedId) => {
-        if (selectedItems.includes(selectedId)) {
+    const handleCheckbox = (selectedItem) => {
+        let newSelectedItems = selectedItems;
+        let newTotalPrice = selectedTotalPrice;
+
+        if (selectedItems.includes(selectedItem)) {
             // Unchecked ==> Remove
-            setSelectedItems(selectedItems.filter(id => id !== selectedId))
+            newSelectedItems = selectedItems.filter(item => item !== selectedItem)
+            newTotalPrice -= selectedItem.price;
         } else {
-            setSelectedItems([...selectedItems, selectedId])
+            // Checked ==> Add
+            newSelectedItems = [...selectedItems, selectedItem]
+            newTotalPrice += selectedItem.price;
         }
+        setSelectedItems(newSelectedItems)
+        setSelectedTotalPrice(newTotalPrice)
     }
-    console.log(selectedItems)
+
 
     return (
         <OrderContext.Provider
             value={{
                 selectedItems, setSelectedItems,
-                handleCheckbox
+                handleCheckbox,
+                selectedTotalPrice, setSelectedTotalPrice,
             }}
         >
             {children}

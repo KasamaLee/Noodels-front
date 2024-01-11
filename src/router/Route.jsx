@@ -8,6 +8,7 @@ import CartPage from '../pages/CartPage'
 import OrderContextProvider from '../contexts/OrderContext'
 import PaymentPage from '../pages/PaymentPage'
 import NotfoundPage from '../pages/NotfoundPage'
+import OrderPage from '../pages/OrderPage'
 
 
 const router = createBrowserRouter([
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
             { path: 'contact', element: <ContactPage /> },
             { path: 'cart', element: <CartPage /> },
             { path: 'payment', element: <PaymentPage /> },
+            { path: 'order', element: <OrderPage /> },
             {path: '*', element: <NotfoundPage /> }
         ]
     }

@@ -111,7 +111,7 @@ export default function AuthContextProvider({ children }) {
         <AuthContext.Provider
             value={{
                 isOpenLoginModal, setIsOpenLoginModal,
-                initialLoading,
+                initialLoading, setInitialLoading,
                 register,
                 login,
                 logout,

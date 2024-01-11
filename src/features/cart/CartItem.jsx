@@ -11,33 +11,36 @@ import { ProductContext } from '../../contexts/ProductContext';
 import Modal from '../../components/Modal';
 
 
-export default function CartItem({ id, imageUrl, name, totalPrice, initialQuantity, maxQuantity, price }) {
-
+export default function CartItem({ eachCart }) {
+    
     const { selectedItems, handleCheckbox } = useContext(OrderContext);
     const { handleDeleteCartItem, deletingItemId, setDeletingItemId } = useContext(CartContext);
     const { isOpenModal, setIsOpenModal } = useContext(ProductContext)
+    
 
+    const initialQuantity = eachCart.quantity;
+    const maxQuantity = eachCart.product.stockQuantity;
 
     return (
         <div className='relative flex items-center w-2/3 gap-6'>
             <div className="relative p-6 grow flex items-center gap-8 ring-4 ring-gray-500 bg-white rounded-xl overflow-hidden">
 
-                <img src={imageUrl} className='w-24 h-24 object-cover rounded-lg' />
+                <img src={eachCart.product.imageUrl} alt='cartItem image' className='w-24 h-24 object-cover rounded-lg' />
 
                 <div className='grow flex flex-col'>
-                    <p className='text-lg font-semibold'>{name}</p>
-                    <p>Price: {totalPrice}</p>
-                    <p>Quantity: {initialQuantity}</p>
+                    <p className='text-lg font-semibold'>{eachCart.product.name}</p>
+                    <p><span>&#215;</span> {initialQuantity}</p>
+                    <p>Price: {eachCart.price}</p>
                 </div>
 
                 {maxQuantity > 0 ? (
                     <>
                         <CartCounter
-                            id={id}
+                            id={eachCart.id}
                             initialQuantity={initialQuantity}
                             maxQuantity={maxQuantity}
-                            totalPrice={totalPrice}
-                            price={price}
+                            totalPrice={eachCart.price}
+                            price={eachCart.product.price}
                         />
                     </>
                 ) : (
@@ -50,7 +53,7 @@ export default function CartItem({ id, imageUrl, name, totalPrice, initialQuanti
 
                 <button
                     onClick={() => {
-                        setDeletingItemId(id)
+                        setDeletingItemId(eachCart.id)
                         setIsOpenModal(true)
                     }}
                     className='z-10 ml-6 text-sm ring-2 ring-black text-black px-3 py-1 bg-gray-300 rounded-3xl flex justify-center items-center gap-1 hover:text-red-500 hover:ring-red-500'>
@@ -58,14 +61,13 @@ export default function CartItem({ id, imageUrl, name, totalPrice, initialQuanti
                 </button>
             </div>
 
-            {
-                maxQuantity > 0 &&
+            {maxQuantity > 0 &&
                 <input
                     className='absolute -right-14 w-6 h-6 accent-amber-600 border-2 bg-gray-100 border-gray-300 rounded-lg focus:ring-amber-500 dark:focus:ring-amber-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
                     type="checkbox"
                     // checked={true}
-                    checked={selectedItems.includes(id)}
-                    onChange={() => handleCheckbox(id)}
+                    checked={selectedItems.includes(eachCart)}
+                    onChange={() => handleCheckbox(eachCart)}
                 />
             }
 
