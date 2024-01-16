@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQrcode, faCreditCard, faUpload, faImage, faTruckFast } from '@fortawesome/free-solid-svg-icons';
+import { faQrcode, faCreditCard, faUpload, faImage, faTruckFast, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { useEffect } from 'react';
@@ -14,6 +14,7 @@ import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 
@@ -24,7 +25,7 @@ export default function PaymentPage() {
     const [isOpenCredit, setIsOpenCredit] = useState(false);
     const [clientSecret, setClientSecret] = useState("");
 
-    const { initialLoading, setInitialLoading } = useContext(AuthContext)
+    const { initialLoading, setInitialLoading, authUser } = useContext(AuthContext)
     const { selectedItems, selectedTotalPrice } = useContext(OrderContext);
     // console.log(selectedItems)
 
@@ -46,9 +47,11 @@ export default function PaymentPage() {
             // }
 
             const response = await axios.post('/order/create', reqBody);
-            // console.log(response)
+            if (response.status === 200) {
+                toast.success('your order is completed :)')
+            }
         } catch (err) {
-            console.log(err)
+            toast.success("sorry, your order is not completed :(")
         } finally {
             setInitialLoading(false)
         }
@@ -84,7 +87,7 @@ export default function PaymentPage() {
 
     return (
         <section className='section py-28'>
-            <div className='container flex flex-col items-center justify-center gap-6'>
+            <div className='container flex flex-col items-center justify-center gap-8'>
                 <h4 className='text-3xl'>Your order</h4>
 
                 {selectedItems?.map(eachCart => {
@@ -100,6 +103,22 @@ export default function PaymentPage() {
                     )
                 })}
                 <h4 className='text-2xl w-2/3 text-amber-600 text-left'>Total Price : {selectedTotalPrice}</h4>
+
+                <div className='w-2/3 text-left flex gap-4'>
+                    <p className='font-semibold '>Delivery To : </p>
+                    {authUser?.address ? (
+                        <p>{authUser?.address}</p>
+                    ) : (
+                        <button
+                            className='ring-2 ring-black text-black px-4 py-1 bg-amber-400 rounded-full text-sm font-semibold flex justify-center items-center gap-1 hover:gap-2'
+                            onClick={() => navigate('/profile')}
+                        >
+                            add your address
+                            <FontAwesomeIcon icon={faLocationDot} size='1x' />
+                        </button>
+                    )}
+                </div>
+
             </div>
 
             <div className='container pt-12 flex flex-col items-center gap-6'>

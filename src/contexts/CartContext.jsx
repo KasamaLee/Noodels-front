@@ -6,6 +6,7 @@ import { createContext } from 'react'
 import { AuthContext } from './AuthContext';
 import { useMemo } from 'react';
 
+
 export const CartContext = createContext();
 
 export default function CartContextProvider({ children }) {
@@ -18,11 +19,6 @@ export default function CartContextProvider({ children }) {
     const [deletingItemId, setDeletingItemId] = useState(null);
 
     const { authUser, isOpenLoginModal, setIsOpenLoginModal } = useContext(AuthContext)
-
-
-    // useEffect(() => {
-    //     fetchCart()
-    // }, [])
 
 
     const fetchCart = async () => {

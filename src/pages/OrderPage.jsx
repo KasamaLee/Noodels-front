@@ -19,7 +19,7 @@ export default function OrderPage() {
     setOrderData(response.data.order)
   }
 
-  console.log(orderData)
+  // console.log(orderData)
 
   return (
     <section className='section py-28'>

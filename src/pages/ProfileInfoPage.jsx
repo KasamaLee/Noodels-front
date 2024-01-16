@@ -41,7 +41,7 @@ export default function ProfileInfoPage() {
 
                             <div>
                                 <span className='text-gray-400'>address</span>
-                                <p>{authUser.mobile ? (authUser.address) : ('none')}</p>
+                                <p>{authUser.address ? (authUser.address) : ('none')}</p>
                             </div>
                         </div>
 
