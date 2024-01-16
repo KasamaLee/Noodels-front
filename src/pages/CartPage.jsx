@@ -12,17 +12,12 @@ import { useEffect } from 'react';
 export default function CartPage() {
 
 	const { authUser } = useContext(AuthContext);
-	const { cartData } = useContext(CartContext);
+	const { cartData, sortedCartItems } = useContext(CartContext);
 	const { selectedItems, setSelectedItems } = useContext(OrderContext);
-	// console.log(cartData?.CartItem)
 
-	// cartData will be Mutated
-	const sortedCartItems = cartData?.CartItem.sort((a, b) => {
-		if (a.product.stockQuantity === 0) return 1        // IF a:0 ==> move a BEHIND b
-		if (b.product.stockQuantity === 0) return -1       // IF b:0 ==> move a BEFORE b
-		return 0;                                          // BOTH a b are NOT 0 ==> No change
-	})
+	// console.log(cartData?.CartItem)
 	// console.log(sortedCartItems)
+
 
     useEffect(() => {
         setSelectedItems([])

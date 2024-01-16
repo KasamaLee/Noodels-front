@@ -4,6 +4,9 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { createContext } from 'react'
 import { addAccessToken, getAccessToken, removeAccessToken } from '../utils/local-storage'
+import { gapi } from "gapi-script";
+import { toast } from 'react-toastify';
+
 
 export const AuthContext = createContext()
 
@@ -13,6 +16,8 @@ export default function AuthContextProvider({ children }) {
     const [initialLoading, setInitialLoading] = useState(true);
     const [authUser, setAuthUser] = useState();
 
+    const clientId = "572207410517-5je8gdql4jqq4stlmr2sudgs92bmabtu.apps.googleusercontent.com"
+
 
     useEffect(() => {
         if (getAccessToken()) {
@@ -20,7 +25,18 @@ export default function AuthContextProvider({ children }) {
         } else {
             setInitialLoading(false);
         }
+
+        // initialize Google API client
+        const initClient = () => {
+            gapi.client.init({
+                clientId: clientId,
+                scope: ''
+            })
+        }
+        // load Google API client for auth service
+        gapi.load("client:auth2", initClient)
     }, [])
+
 
     const getMe = async () => {
         try {
@@ -44,13 +60,14 @@ export default function AuthContextProvider({ children }) {
     }
 
     const onGoogleSuccess = async (res, onCloseModal) => {
-        // console.log(res.profileObj)
-        const data = {
-            userName: res.profileObj.givenName,
-            email: res.profileObj.email,
-            googleId: res.profileObj.googleId,
-        }
         try {
+            // console.log(res.profileObj)
+            const data = {
+                userName: res.profileObj.givenName,
+                email: res.profileObj.email,
+                googleId: res.profileObj.googleId,
+            }
+
             const response = await axios.post('/auth/googleLogin', data)
             // console.log(response)
 
@@ -67,8 +84,8 @@ export default function AuthContextProvider({ children }) {
     }
 
     const onGoogleFailure = (res) => {
-        alert('Log in with Google Failed')
-        console.log('failed', res)
+        toast('Log in with Google Failed')
+        // console.log('failed', res)
     }
 
     const register = async (registerData, onCloseModal) => {
@@ -95,17 +112,43 @@ export default function AuthContextProvider({ children }) {
             onCloseModal();
 
         } catch (err) {
-            console.log(err)
+            // console.log(err)
+            toast.error('email or password incorrect!')
         }
     }
 
     const logout = () => {
         removeAccessToken()
         setAuthUser(null);
-
     }
 
-    // console.log(authUser)
+    const updateProfileInfo = async (input) => {
+        try {
+            const response = await axios.patch('/auth/update/profile', input)
+            // console.log(response)
+            if (response.status === 200) {
+                toast.success('profile info is updated !')
+                getMe();
+            }
+        } catch (err) {
+            // console.log(err)
+            toast.error("can't update profile info")
+        }
+    }
+
+    const updatePassword = async (input) => {
+        try {
+            const response = await axios.patch('/auth/update/password', input)
+            // console.log(response)
+            if (response.status === 200) {
+                toast.success('password is changed!')
+                getMe();
+            }
+        } catch (err) {
+            // console.log(err)
+            toast.error('old password incorrect!')
+        }
+    }
 
     return (
         <AuthContext.Provider
@@ -116,7 +159,10 @@ export default function AuthContextProvider({ children }) {
                 login,
                 logout,
                 authUser,
-                onGoogleSuccess, onGoogleFailure
+                clientId,
+                onGoogleSuccess, onGoogleFailure,
+                updateProfileInfo,
+                updatePassword
             }}
         >
             {children}

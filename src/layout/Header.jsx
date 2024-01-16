@@ -18,7 +18,7 @@ export default function Header() {
 
 	useEffect(() => {
 		if (authUser) fetchCart()
-	}, [])
+	}, [authUser])
 
 
 	const navigate = useNavigate();

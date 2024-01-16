@@ -8,7 +8,7 @@ export default function OrderList({ id, orderDate, totalPrice, orderItem, status
 
     console.log(orderItem)
     return (
-        <div className='border-dashed border-2 border-gray-400 bg-white rounded-2xl w-full py-10 flex flex-col items-center justify-center gap-4'>
+        <div className='border-dashed border-2 border-gray-400 bg-gray-100 rounded-2xl w-full py-10 flex flex-col items-center justify-center gap-4'>
             {orderItem?.map(eachItem => {
                 return (
                     <OrderItem
@@ -24,7 +24,7 @@ export default function OrderList({ id, orderDate, totalPrice, orderItem, status
 
             <div className='w-2/3 flex justify-between items-baseline'>
                 <p className=''>Order date: {date}</p>
-                <p className='font-bold text-gray-600 text-lg'>Total Price : {totalPrice}</p>
+                <p className='font-bold text-lg'>Total Price : {totalPrice}</p>
             </div>
             <p className='w-2/3 font-bold text-lg text-green-600 border-t border-gray-500 pt-2'>Your order status : {status}</p>
         </div>

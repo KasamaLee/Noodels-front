@@ -17,7 +17,7 @@ export default function ProductDetail({ productId }) {
         selectedProductName,
         selectedProductDesc,
         selectedProductPrice,
-        selectedProductStockQuantity
+        selectedProductStockQuantity, setSelectedProductStockQuantity
     } = useContext(ProductContext);
 
     const {
@@ -31,6 +31,8 @@ export default function ProductDetail({ productId }) {
     const { authUser, setIsOpenLoginModal } = useContext(AuthContext)
 
     const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
+    const [showQuantityError, setShowQuantityError] = useState(false)
+    const [availableQuantity, setAvailableQuantity] = useState(selectedProductStockQuantity)
 
 
     useEffect(() => {
@@ -64,18 +66,27 @@ export default function ProductDetail({ productId }) {
         setProductTotalPrice(productCount * selectedProductPrice)
     }
 
+
     const addToCart = () => {
         if (!authUser) {
-         return setIsOpenLoginModal(true)
+            return setIsOpenLoginModal(true)
         }
 
         const existedCartItem = cartData?.CartItem.find(item => (item.productId) === (selectedProductId))
-        // console.log(existedCartItem)
-
         if (existedCartItem) {
+            const newAvailableQuantity = selectedProductStockQuantity - existedCartItem.quantity
+            setAvailableQuantity(newAvailableQuantity);
+            // console.log('เลือกได้', newAvailableQuantity, 'ชิ้น')
+
+            if (productCount > newAvailableQuantity) {
+                setShowQuantityError(true)
+                return
+            }
+
             const newQuantity = existedCartItem.quantity + productCount;
             const newTotalPrice = existedCartItem.price + productTotalPrice
             handleUpDateQuantity(existedCartItem.id, newQuantity, newTotalPrice)
+
         } else {
             handleAddToCart(selectedProductId)
         }
@@ -89,9 +100,9 @@ export default function ProductDetail({ productId }) {
             setShowSuccessAnimation(false);
             setIsOpenModal(false)
         }, 600)
-
-
     }
+
+
 
     return (
         <div className='flex gap-8 relative'>
@@ -128,6 +139,13 @@ export default function ProductDetail({ productId }) {
 
                     <h4 className='text-2xl text-center text-amber-500'>Total Price : {productTotalPrice}</h4>
                 </div>
+
+                {showQuantityError &&
+                    <p className='text-xl text-center text-red-600'>
+                        ตะกร้าสินค้าเกินกำหนด
+                        <br />เพิ่มสินค้าได้ {availableQuantity} ชิ้น
+                    </p>
+                }
 
                 <button
                     className='mt-4 w-56 ring-4 ring-black text-black px-6 py-2 bg-amber-400 rounded-3xl text-2xl font-semibold flex justify-center items-center gap-2 hover:gap-4'

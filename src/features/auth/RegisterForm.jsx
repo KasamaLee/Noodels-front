@@ -9,52 +9,13 @@ import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 import googleLogo from '../../assets/images/google.png'
 import { useEffect } from 'react';
+import { validateRegister } from './auth-validator'
 
 export default function RegisterForm({ setIsRegister, onCloseModal }) {
 
-	const registerSchema = Joi.object({
-		userName: Joi.string().trim().required(),
-		email: Joi.string().trim().email({
-			tlds: { allow: ['com', 'net'] }
-		}),
-		password: Joi.string().pattern(/^[a-zA-Z0-9]{6,30}$/).trim().required(),
-		confirmPassword: Joi.string().valid(Joi.ref('password'))
-			.trim()
-			.required()
-			.strip(),
-		mobile: Joi.string().pattern(/^[0-9]{10}$/).required(),
-		address: Joi.string().trim()
-	})
-
-	const validateRegister = (input) => {
-		const { error } = registerSchema.validate(input, { abortEarly: false });
-
-		if (error) {
-			const result = error.details.reduce((acc, elem) => {
-				const { message, path } = elem;
-				acc[path[0]] = message;
-				return acc;
-			}, {});
-			return result;
-		}
-	}
-
-
 	const clientId = "572207410517-5je8gdql4jqq4stlmr2sudgs92bmabtu.apps.googleusercontent.com"
-	const { login, onGoogleSuccess, onGoogleFailure } = useContext(AuthContext);
+	const { register, onGoogleSuccess, onGoogleFailure } = useContext(AuthContext);
 
-	useEffect(() => {
-		const initClient = () => {
-			gapi.client.init({
-				clientId: clientId,
-				scope: ''
-			})
-		}
-		gapi.load("client:auth2", initClient)
-	}, [])
-
-
-	const { register } = useContext(AuthContext)
 	const [error, setError] = useState({})
 	const [input, setInput] = useState({
 		userName: '',
@@ -73,7 +34,6 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
 		if (validationError) {
 			return setError(validationError);
 		}
-
 		register(input, onCloseModal)
 	}
 

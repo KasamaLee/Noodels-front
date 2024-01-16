@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { useState } from 'react';
 import { createContext } from 'react'
 import { AuthContext } from './AuthContext';
+import { useMemo } from 'react';
 
 export const CartContext = createContext();
 
@@ -28,6 +29,21 @@ export default function CartContextProvider({ children }) {
         const response = await axios.get('/cart/get')
         setCartData(response.data.cart)
     }
+
+
+    const sortedCartItems = useMemo(() => {
+        if (!cartData?.CartItem) {
+            return [];
+        }
+
+        // Sort CartItem array
+        return [...cartData.CartItem].sort((a, b) => {
+            if (a.product.stockQuantity === 0) return 1        // IF a:0 ==> move a BEHIND b
+            if (b.product.stockQuantity === 0) return -1       // IF b:0 ==> move a BEFORE b
+            return 0;
+        });
+    }, [cartData?.CartItem]);
+
 
     const handleAddToCart = async (selectedProductId) => {
         try {
@@ -85,7 +101,8 @@ export default function CartContextProvider({ children }) {
                 deletingItemId, setDeletingItemId,
                 handleAddToCart, handleDeleteCartItem, handleUpDateQuantity,
                 cartData, setCartData,
-                fetchCart
+                fetchCart,
+                sortedCartItems
             }}
         >
             {children}

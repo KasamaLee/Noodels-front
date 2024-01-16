@@ -5,25 +5,11 @@ import Input from './FormInput';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { GoogleLogin } from "react-google-login";
-import { gapi } from "gapi-script";
-import  googleLogo  from '../../assets/images/google.png'
+import googleLogo from '../../assets/images/google.png'
 
 export default function LoginForm({ setIsRegister, onCloseModal }) {
 
-  const clientId = "572207410517-5je8gdql4jqq4stlmr2sudgs92bmabtu.apps.googleusercontent.com"
-
-  useEffect(() => {
-    const initClient = () => {
-      gapi.client.init({
-        clientId: clientId,
-        scope: ''
-      })
-    }
-    gapi.load("client:auth2", initClient)
-  }, [])
-
-
-  const { login, onGoogleSuccess, onGoogleFailure } = useContext(AuthContext);
+  const { login, onGoogleSuccess, onGoogleFailure, clientId } = useContext(AuthContext);
 
   const [input, setInput] = useState({
     email: '',

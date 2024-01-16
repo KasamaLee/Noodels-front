@@ -9,19 +9,20 @@ import OrderContextProvider from '../contexts/OrderContext'
 import PaymentPage from '../pages/PaymentPage'
 import NotfoundPage from '../pages/NotfoundPage'
 import OrderPage from '../pages/OrderPage'
+import ProfileInfoPage from '../pages/ProfileInfoPage'
 
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: (
-                <ProductContextProvider>
-                    <CartContextProvider>
-                        <OrderContextProvider>
-                            <Layout />
-                        </OrderContextProvider>
-                    </CartContextProvider>
-                </ProductContextProvider>
+            <ProductContextProvider>
+                <CartContextProvider>
+                    <OrderContextProvider>
+                        <Layout />
+                    </OrderContextProvider>
+                </CartContextProvider>
+            </ProductContextProvider>
         ),
         children: [
             { path: '', element: <HomePage /> },
@@ -29,7 +30,8 @@ const router = createBrowserRouter([
             { path: 'cart', element: <CartPage /> },
             { path: 'payment', element: <PaymentPage /> },
             { path: 'order', element: <OrderPage /> },
-            {path: '*', element: <NotfoundPage /> }
+            { path: 'profile', element: <ProfileInfoPage /> },
+            { path: '*', element: <NotfoundPage /> }
         ]
     }
 ])

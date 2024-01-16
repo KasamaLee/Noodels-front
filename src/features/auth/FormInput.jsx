@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Input({ type = 'text', placeholder, value, onChange, name, hasError }) {
+export default function Input({ type = 'text', placeholder, value, onChange, name, maxlength, hasError }) {
     return (
         <input
             type={type}
@@ -12,6 +12,7 @@ export default function Input({ type = 'text', placeholder, value, onChange, nam
                 }`}
             name={name}
             value={value}
+            maxLength={maxlength}
             onChange={onChange}
         />
     )
