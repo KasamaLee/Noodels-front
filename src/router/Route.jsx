@@ -15,6 +15,7 @@ import { useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 import AdminLayout from '../layout/AdminLayout'
 import AdminCheckOrderPage from '../pages/AdminCheckOrderPage'
+import AdminEditProductPage from '../pages/AdminEditProductPage'
 
 
 export default function Route() {
@@ -74,7 +75,7 @@ export default function Route() {
                 ),
                 children: [
                     { path: '', element: <AdminCheckOrderPage /> },
-                    // { path: 'edit', element: <AdminEditProductPage /> },
+                    { path: 'edit', element: <AdminEditProductPage /> },
                     { path: 'profile', element: <ProfileInfoPage /> },
                     { path: '*', element: <NotfoundPage /> }
                 ]

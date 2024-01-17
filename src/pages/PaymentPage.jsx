@@ -13,7 +13,7 @@ import QR from '../assets/images/Qr.jpg'
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
-import axios from 'axios';
+import axios from '../config/axios'
 import { toast } from 'react-toastify';
 
 

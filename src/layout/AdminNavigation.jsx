@@ -19,7 +19,7 @@ export default function AdminNavigation() {
                 <li
                     className={`cursor-pointer flex justify-center items-center px-3 py-1 gap-1 hover:ring-white hover:ring-2 hover:rounded-3xl`}
                     onClick={() => {
-                        navigate('/')
+                        navigate('/edit')
                     }}>
                     Edit
                 </li>
