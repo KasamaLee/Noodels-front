@@ -1,5 +1,3 @@
-import { useState } from 'react'
-import { useEffect } from 'react'
 import ProductCard from './ProductCard';
 import { useContext } from 'react';
 import { ProductContext } from '../../contexts/ProductContext';

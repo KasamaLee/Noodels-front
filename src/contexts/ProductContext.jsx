@@ -2,6 +2,8 @@ import axios from '../config/axios';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { createContext } from 'react'
+import { toast } from 'react-toastify';
+
 
 export const ProductContext = createContext()
 
@@ -20,7 +22,7 @@ export default function ProductContextProvider({ children }) {
     const [allCategory, setAllCategory] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [filteredProducts, setFilteredProducts] = useState(null);
-    
+
 
     useEffect(() => {
         fetchProduct()
@@ -42,6 +44,56 @@ export default function ProductContextProvider({ children }) {
         setFilteredProducts(newFilteredProducts);
     }
 
+    const handleDeleteProduct = async (productId) => {
+        try {
+            console.log(productId)
+            const response = await axios.delete(`/product/delete/${productId}`)
+            if (response.status === 200) {
+                toast.success('Product is deleted')
+                fetchProduct()
+            }
+        } catch (err) {
+            toast.error("Error deleting product:", err);
+        }
+    }
+
+    const handleDeleteCategory = async (id) => {
+        try {
+            const response = await axios.delete(`/category/delete/${id}`)
+            if (response.status === 200) {
+                toast.success('Category is deleted')
+                fetchCategory()
+            }
+        } catch (err) {
+            toast.error("Error deleting category:", err);
+        }
+    }
+
+    const handleCreateCategory = async (categoryName) => {
+        try {
+            const response = await axios.post(`/category/add`, { categoryName })
+            if (response.status === 200) {
+                toast.success('Category is added')
+                fetchCategory()
+            }
+        } catch (err) {
+            toast.error("Error adding category:", err);
+        }
+    }
+
+    const handleUpdateCategory = async (id, categoryName) => {
+        try {
+            const response = await axios.patch(`/category/update/${id}`, { id, categoryName })
+            if (response.status === 200) {
+                toast.success('Category is updated')
+                fetchCategory()
+            }
+        } catch (err) {
+            toast.error("Error updating category:", err);
+        }
+    }
+
+
     return (
         <ProductContext.Provider
             value={{
@@ -57,7 +109,11 @@ export default function ProductContextProvider({ children }) {
                 allCategory, setAllCategory,
                 selectedCategory, setSelectedCategory,
                 filteredProducts, setFilteredProducts,
-                handleFilteredProducts
+                handleFilteredProducts,
+                handleDeleteProduct,
+                handleDeleteCategory,
+                handleCreateCategory,
+                handleUpdateCategory
             }}
         >
             {children}

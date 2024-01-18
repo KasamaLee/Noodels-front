@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { createContext } from 'react'
 import { AuthContext } from './AuthContext';
 import { useMemo } from 'react';
+import { toast } from 'react-toastify';
 
 
 export const CartContext = createContext();
@@ -54,36 +55,36 @@ export default function CartContextProvider({ children }) {
             }
 
             const response = await axios.post('/cart/add', newCartItem)
-            // console.log(response)
-
             if (response.status === 200) {
                 fetchCart()
             }
-
         } catch (err) {
-            console.error("Error adding to cart:", err);
+            toast.error("Error adding to cart:", err);
         }
     }
 
     const handleUpDateQuantity = async (cartItemId, quantity, price) => {
-        // console.log(cartItemId, quantity, price)
-        const response = await axios.patch(`/cart/update/${cartItemId}`, { quantity, price })
-        // console.log(response)
-
-        if (response.status === 200) {
-            fetchCart()
+        try {
+            // console.log(cartItemId, quantity, price)
+            const response = await axios.patch(`/cart/update/${cartItemId}`, { quantity, price })
+            if (response.status === 200) {
+                fetchCart()
+            }
+        } catch (err) {
+            toast.error("Error updating cart:", err);
         }
     }
 
     const handleDeleteCartItem = async (cartItemId) => {
         try {
-            console.log(cartItemId)
+            // console.log(cartItemId)
             const response = await axios.delete(`/cart/delete/${cartItemId}`)
             if (response.status === 200) {
                 fetchCart()
+                toast.success('Product is deleted')
             }
         } catch (err) {
-            console.error("Error deleting cart:", err);
+            toast.error("Error deleting cart:", err);
         }
     }
 

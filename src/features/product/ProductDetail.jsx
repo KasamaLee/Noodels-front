@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import SuccessAnimation from '../../components/SuccessAnimation'
 import { useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import { toast } from 'react-toastify';
+
 
 export default function ProductDetail({ productId }) {
 
@@ -17,7 +19,8 @@ export default function ProductDetail({ productId }) {
         selectedProductName,
         selectedProductDesc,
         selectedProductPrice,
-        selectedProductStockQuantity, setSelectedProductStockQuantity
+        selectedProductStockQuantity, setSelectedProductStockQuantity,
+        handleSuccessAnimation,
     } = useContext(ProductContext);
 
     const {
@@ -30,9 +33,9 @@ export default function ProductDetail({ productId }) {
 
     const { authUser, setIsOpenLoginModal } = useContext(AuthContext)
 
-    const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
     const [showQuantityError, setShowQuantityError] = useState(false)
     const [availableQuantity, setAvailableQuantity] = useState(selectedProductStockQuantity)
+    const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
 
 
     useEffect(() => {
@@ -90,19 +93,13 @@ export default function ProductDetail({ productId }) {
         } else {
             handleAddToCart(selectedProductId)
         }
-        handleSuccess()
-    }
 
-    const handleSuccess = () => {
         setShowSuccessAnimation(true)
-
         setTimeout(() => {
-            setShowSuccessAnimation(false);
+            setShowSuccessAnimation(false)
             setIsOpenModal(false)
         }, 600)
     }
-
-
 
     return (
         <div className='flex gap-8 relative'>
@@ -149,16 +146,19 @@ export default function ProductDetail({ productId }) {
 
                 <button
                     className='mt-4 w-56 ring-4 ring-black text-black px-6 py-2 bg-amber-400 rounded-3xl text-2xl font-semibold flex justify-center items-center gap-2 hover:gap-4'
-                    onClick={() => {
-                        addToCart()
-                        // handleSuccess()
-                    }}
+                    onClick={() => addToCart()}
                 >
                     Add to cart
                     <FontAwesomeIcon icon={faCartShopping} size='1x' />
                 </button>
             </div>
-            {showSuccessAnimation && <SuccessAnimation />}
+
+            <SuccessAnimation
+                width={380}
+                height={380}
+                isSuccess={showSuccessAnimation}
+            />
+
         </div>
     )
 }

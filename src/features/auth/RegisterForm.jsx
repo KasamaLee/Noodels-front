@@ -1,14 +1,11 @@
 import React from 'react'
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
-import Joi from 'joi';
 import Input from './FormInput';
 import InputErrorMessage from './InputErrorMessage'
 import { useState } from 'react';
 import { GoogleLogin } from "react-google-login";
-import { gapi } from "gapi-script";
 import googleLogo from '../../assets/images/google.png'
-import { useEffect } from 'react';
 import { validateRegister } from './auth-validator'
 
 export default function RegisterForm({ setIsRegister, onCloseModal }) {

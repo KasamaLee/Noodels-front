@@ -1,12 +1,12 @@
 import Lottie from 'react-lottie';
-import success from '../assets/animation/success.json';
+import clickEffect from '../assets/animation/clickEffect.json';
 
-export default function SuccessAnimation({ width, height, isSuccess }) {
+export default function ClickEffect({ width, height, isClick, classPosition }) {
 
     const defaultOptions = {
         loop: false,
         autoplay: true,
-        animationData: success,
+        animationData: clickEffect,
         rendererSettings: {
             preserveAspectRatio: 'xMidYMid slice'
         }
@@ -14,11 +14,11 @@ export default function SuccessAnimation({ width, height, isSuccess }) {
 
     return (
         <>
-            {isSuccess &&
-                <div className={`absolute w-full h-full flex justify-center items-center z-20`}>
+            {isClick &&
+                <div className={`absolute z-20 ${classPosition}`}>
                     <Lottie
                         options={defaultOptions}
-                        speed={2}
+                        speed={100}
                         width={width}
                         height={height}
                     />

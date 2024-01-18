@@ -71,7 +71,9 @@ export default function Route() {
             {
                 path: '/',
                 element: (
-                    <AdminLayout />
+                    <ProductContextProvider>
+                        <AdminLayout />
+                    </ProductContextProvider>
                 ),
                 children: [
                     { path: '', element: <AdminCheckOrderPage /> },

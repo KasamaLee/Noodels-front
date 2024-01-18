@@ -154,7 +154,7 @@ export default function PaymentPage() {
                                 <img
                                     src={URL.createObjectURL(file)}
                                     alt='uploaded image'
-                                    className='w-full h-full object-contain'
+                                    className='w-full h-full object-cover'
                                 />
                             ) : (
                                 <FontAwesomeIcon icon={faImage} size='4x' className='text-gray-400' />

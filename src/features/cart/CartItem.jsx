@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { OrderContext } from '../../contexts/OrderContext';
 import { ProductContext } from '../../contexts/ProductContext';
 import Modal from '../../components/Modal';
+import ConfirmDelete from '../../components/ConfirmDelete';
 
 
 export default function CartItem({ eachCart }) {
@@ -76,19 +77,10 @@ export default function CartItem({ eachCart }) {
             }
 
             <Modal isOpenModal={isOpenModal} onCloseModal={() => setIsOpenModal(!isOpenModal)}>
-                <div className='flex flex-col items-center gap-4'>
-                    <h4 className='text-3xl text-center text-amber-500'>Delete Product?</h4>
-                    <button
-                        className='ml-6 text-sm ring-2 ring-black text-black px-3 py-1 bg-gray-300 rounded-3xl flex justify-center items-center gap-1'
-                        onClick={() => {
-                            handleDeleteCartItem(deletingItemId)
-                            setIsOpenModal(false)
-                        }}
-                    >
-                        Delete
-                        <FontAwesomeIcon icon={faTrash} size='1x' />
-                    </button>
-                </div>
+                <ConfirmDelete
+                    handleDelete={() => handleDeleteCartItem(deletingItemId)}
+                    setIsOpenModal={setIsOpenModal}
+                />
             </Modal>
         </div >
 

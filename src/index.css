@@ -27,6 +27,20 @@
   a:hover {
     color: #747bff;
   }
+  table {
+    background-color: #fff;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: rgba(255, 255, 255, 0.87); /* Light text color for dark backgrounds */
+    background-color: #242424; /* Dark background */
+  }
+  table {
+    background-color: #000;
+  }
+
 }
 
 h1,
@@ -54,4 +68,13 @@ div  {
 }
 .container {
   @apply max-w-[960px] mx-auto;
+}
+
+.remove-arrow::-webkit-inner-spin-button,
+.remove-arrow::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.remove-arrow {
+    -moz-appearance: textfield;
 }

@@ -35,7 +35,7 @@ export default function AdminCheckOrderPage() {
 
     return (
         <section className='section py-28'>
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-6">
                 <h4 className='text-3xl text-center'>Order</h4>
 
                 <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -51,11 +51,11 @@ export default function AdminCheckOrderPage() {
                                         <th scope="col" className=" px-6 py-4">Date and Time</th>
                                         <th scope="col" className=" px-6 py-4">Product</th>
                                         <th scope="col" className=" px-6 py-4">Slip image</th>
-                                        <th scope="col" className=" px-6 py-4">Status</th>
+                                        <th scope="col" className=" px-6 py-4">Payment status</th>
                                         <th scope="col" className=" px-6 py-4">Address</th>
                                     </tr>
                                 </thead>
-                                <tbody className="bg-white">
+                                <tbody className="">
                                     {ordersData?.map(eachOrder => {
                                         return (
                                             <tr key={uuidv4()} className="border-b dark:border-neutral-500">
@@ -76,7 +76,7 @@ export default function AdminCheckOrderPage() {
                                                                 <Dropdown.Item key={index} className='py-4'>
                                                                     <div className='flex items-center gap-3'>
                                                                         <img src={item.product.imageUrl} alt="product" className='w-12 h-12 object-cover rounded-md border' />
-                                                                        <p>{item.product.name} x {item.quantity}</p>
+                                                                        <p>{item.product.name} <span>&#215;</span> {item.quantity}</p>
                                                                     </div>
                                                                 </Dropdown.Item>
                                                             )
@@ -115,7 +115,6 @@ export default function AdminCheckOrderPage() {
                                             </tr>
                                         )
                                     })}
-
                                 </tbody>
                             </table>
                         </div>
