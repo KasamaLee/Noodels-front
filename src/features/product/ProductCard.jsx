@@ -37,7 +37,7 @@ export default function ProductCard({ productId, imageUrl, name, desc, price, st
                     <div className='bg-gray-400 w-full h-64 rounded-xl'></div>
                 )}
 
-                <div className='flex flex-col gap-2 px-2'>
+                <div className='flex flex-col gap-2 px-2 card-info'>
                     <h4 className='text-2xl text-center'>{name}</h4>
                     {/* <p className='text-gray-500'>Lorem ipsum</p> */}
                     <div className='flex justify-between'>

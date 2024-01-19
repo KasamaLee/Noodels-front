@@ -21,6 +21,7 @@ export default function ProductContextProvider({ children }) {
 
     const [allCategory, setAllCategory] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('All');
+    const [selectedCategoryId, setSelectedCategoryId] = useState('All');
     const [filteredProducts, setFilteredProducts] = useState(null);
 
 
@@ -46,7 +47,6 @@ export default function ProductContextProvider({ children }) {
 
     const handleDeleteProduct = async (productId) => {
         try {
-            console.log(productId)
             const response = await axios.delete(`/product/delete/${productId}`)
             if (response.status === 200) {
                 toast.success('Product is deleted')
@@ -113,7 +113,8 @@ export default function ProductContextProvider({ children }) {
                 handleDeleteProduct,
                 handleDeleteCategory,
                 handleCreateCategory,
-                handleUpdateCategory
+                handleUpdateCategory,
+                selectedCategoryId, setSelectedCategoryId
             }}
         >
             {children}

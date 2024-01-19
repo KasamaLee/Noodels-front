@@ -6,13 +6,11 @@ import { useContext } from 'react';
 import { ProductContext } from '../../contexts/ProductContext';
 import { useState } from 'react';
 import ConfirmDelete from '../../components/ConfirmDelete';
-import Counter from './Counter';
-import axios from '../../config/axios';
-import { toast } from 'react-toastify';
 import AdminProductDetail from './AdminProductDetail';
+import { useEffect } from 'react';
 
 
-export default function AdminProductCard({ countryId, id, desc, imageUrl, name, price, stockQuantity }) {
+export default function AdminProductCard({ id, desc, imageUrl, name, price, stockQuantity, categoryId }) {
 
     const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
 
@@ -24,17 +22,32 @@ export default function AdminProductCard({ countryId, id, desc, imageUrl, name, 
         setSelectedProductDesc,
         setSelectedProductPrice,
         setSelectedProductStockQuantity,
-        setSelectedCategory,
+        selectedCategoryId, setSelectedCategoryId,
         handleDeleteProduct
     } = useContext(ProductContext);
 
+    useEffect(() => {
+        if (!isOpenModal) {
+            reset();
+        }
+    }, [isOpenModal])
+
+    const reset = () => {
+        setSelectedProductId(null)
+        setSelectedProductImageUrl(null)
+        setSelectedProductName(null)
+        setSelectedProductDesc(null)
+        setSelectedProductPrice(null)
+        setSelectedProductStockQuantity(null)
+        setSelectedCategoryId(null)
+    }
 
 
     return (
         <>
             <div className="p-6 grow flex flex-col items-center gap-8 ring-4 ring-gray-500 bg-white rounded-xl overflow-hidden">
 
-                <div className='w-full flex gap-4 items-center'>
+                <div className='w-full flex gap-4 items-center card-info'>
                     {imageUrl ? (
                         <img src={imageUrl} alt='cartItem image' className='w-28 h-28 object-cover rounded-lg' />
                     ) : (
@@ -57,6 +70,7 @@ export default function AdminProductCard({ countryId, id, desc, imageUrl, name, 
                             setSelectedProductDesc(desc)
                             setSelectedProductPrice(price)
                             setSelectedProductStockQuantity(stockQuantity)
+                            setSelectedCategoryId(categoryId)
                             setIsOpenModal(true)
                         }}
                         className='w-20 text-sm ring-2 ring-black text-black px-3 py-1 bg-gray-300 rounded-full flex justify-center items-center gap-1 hover:text-blue-500 hover:ring-blue-500'>

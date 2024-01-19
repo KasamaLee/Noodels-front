@@ -4,20 +4,34 @@ import { ProductContext } from '../../contexts/ProductContext';
 import Modal from '../../components/Modal';
 import ConfirmDelete from '../../components/ConfirmDelete';
 import { v4 as uuidv4 } from 'uuid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { useEffect } from 'react';
 
 
 export default function AdminCategory() {
 
-    const { allCategory, handleDeleteCategory, handleCreateCategory, handleUpdateCategory } = useContext(ProductContext)
+    const {
+        allCategory,
+        handleDeleteCategory, handleCreateCategory, handleUpdateCategory,
+        handleFilteredProducts, setFilteredProducts
+    } = useContext(ProductContext)
 
     const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState({ id: null, name: '' });
 
-    // console.log(selectedCategory)
+    console.log(selectedCategory)
+
+    useEffect(() => {
+        if (selectedCategory.id) {
+            return handleFilteredProducts(+selectedCategory.id);
+        }
+        setFilteredProducts(null)
+    }, [selectedCategory]);
 
     return (
         <>
-            <div className='py-16 flex flex-col gap-6 items-center'>
+            <div className='py-10 flex flex-col gap-6 items-center'>
                 <div className='flex items-center gap-2 w-fit'>
                     <label className='font-semibold text-gray-500 text-xl text-center'>Category : </label>
                     <input
@@ -48,11 +62,12 @@ export default function AdminCategory() {
                 </div>
 
                 <div className='flex flex-wrap gap-4'>
-                    {allCategory.map((eachCategory, index) => (
+                    {allCategory.map((eachCategory) => (
                         <div
                             key={uuidv4()}
                             className={`${selectedCategory.id === eachCategory.id && 'bg-amber-300'} hover:bg-amber-200 w-fit bg-gray-300 px-3 py-1 rounded-lg cursor-pointer flex gap-3`}
                             onClick={() => {
+                                handleFilteredProducts(+selectedCategory.id)
                                 setSelectedCategory({ ...selectedCategory, id: eachCategory.id, name: eachCategory.name })
                             }}
                         >
@@ -66,6 +81,13 @@ export default function AdminCategory() {
                         </div>
                     ))}
                 </div>
+
+                {selectedCategory.id &&
+                    <div
+                        className={`px-4 py-2 rounded-full font-medium cursor-pointer bg-red-500 text-white hover:opacity-60`}
+                        onClick={() => { setSelectedCategory({ id: null, name: '' }) }}
+                    > Reset </div>
+                }
             </div>
 
             <Modal isOpenModal={isOpenDeleteModal} onCloseModal={() => setIsOpenDeleteModal(false)}>

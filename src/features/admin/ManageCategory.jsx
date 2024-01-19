@@ -1,14 +1,13 @@
 import { useContext } from 'react';
 import { useState } from 'react';
 import { ProductContext } from '../../contexts/ProductContext';
-import Counter from './Counter';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function ManageCategory() {
 
-    const { allCategory } = useContext(ProductContext);
-
-    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+    const { allCategory, selectedCategoryId, setSelectedCategoryId, } = useContext(ProductContext);
     const [isCreateNewCategory, setIsCreateNewCategory] = useState(false);
+    console.log('selectedCategoryId:', selectedCategoryId)
 
     return (
         <div className='flex flex-wrap gap-2 items-center'>
@@ -32,9 +31,10 @@ export default function ManageCategory() {
                 </div>
             ) : (
                 <>
-                    {allCategory.map((eachCategory, index) => (
+                    {allCategory.map((eachCategory) => (
                         <div
-                            className={`${selectedCategoryId === eachCategory.id && 'bg-amber-300'} hover:bg-amber-100 text-sm bg-gray-300 px-3 py-1 rounded-lg cursor-pointer`}
+                            key={uuidv4()}
+                            className={`${selectedCategoryId === eachCategory.id ? 'bg-amber-300' : ' bg-gray-300'} hover:bg-amber-100 text-sm px-3 py-1 rounded-lg cursor-pointer`}
                             onClick={() => {
                                 setSelectedCategoryId(eachCategory.id)
                             }}

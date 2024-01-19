@@ -1,21 +1,22 @@
-import React from 'react'
 import Counter from './Counter'
 import { useState } from 'react';
 import { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEdit, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import { useContext } from 'react';
 import { ProductContext } from '../../contexts/ProductContext';
-import SuccessAnimation from '../../components/SuccessAnimation';
-import { useEffect } from 'react';
 import ManageCategory from './ManageCategory';
 import Joi from 'joi';
+import { AuthContext } from '../../contexts/AuthContext';
+import { toast } from 'react-toastify';
+import axios from '../../config/axios';
+
 
 const productSchema = Joi.object({
-    selectedProductName: Joi.required().not(null),
-    monkAmount: Joi.number().integer().min(1).max(20).required(),
-    eventDate: Joi.date().required(),
-    selectLocation: Joi.object().required(),
+    updatedName: Joi.string().required().max(40),
+    updatedPrice: Joi.number().integer().min(1).max(999_999).required(),
+    updatedStock: Joi.number().integer().min(0).max(999_999).required(),
+    updatedDesc: Joi.string(),
 });
 
 const validateProduct = (input) => {
@@ -33,24 +34,28 @@ const validateProduct = (input) => {
 export default function AdminProductDetail() {
 
     const {
-        isOpenModal, setIsOpenModal,
-        allCategory,
-        selectedProductId,
-        selectedProductImageUrl,
-        selectedProductName,
-        selectedProductDesc,
-        selectedProductPrice,
-        selectedProductStockQuantity,
-        // handleCreateProduct
+        selectedProductId, setSelectedProductId,
+        selectedProductImageUrl, setSelectedProductImageUrl,
+        selectedProductName, setSelectedProductName,
+        selectedProductDesc, setSelectedProductDesc,
+        selectedProductPrice, setSelectedProductPrice,
+        selectedProductStockQuantity, setSelectedProductStockQuantity,
+        selectedCategoryId, setSelectedCategoryId,
+        isOpenModal
     } = useContext(ProductContext);
+
+    const { setInitialLoading } = useContext(AuthContext)
 
     const [updatedName, setUpdatedName] = useState(selectedProductName)
     const [updatedPrice, setUpdatedPrice] = useState(selectedProductPrice)
     const [updatedStock, setUpdatedStock] = useState(selectedProductStockQuantity)
+    const [updatedDesc, setUpdatedDesc] = useState(selectedProductDesc)
 
-    const [file, setFile] = useState(null)
-    const inputEl = useRef(null);
     const [error, setError] = useState({})
+    const [file, setFile] = useState(null)
+
+
+    const inputEl = useRef(null);
 
     const handleFile = (e) => {
         console.log(e.target.files[0])
@@ -58,37 +63,51 @@ export default function AdminProductDetail() {
             setFile(e.target.files[0])
         }
     }
-
-    const resetFile = () => {
-        setFile(null)
+    // console.log('file:', file)
+    const reset = () => {
+        setSelectedProductId(null)
+        setSelectedProductImageUrl(null)
+        setSelectedProductName(null)
+        setSelectedProductDesc(null)
+        setSelectedProductPrice(null)
+        setSelectedProductStockQuantity(null)
+        setSelectedCategoryId(null)
     }
 
     const handleCreateProduct = async () => {
-        e.preventDefault();
-        const validationError = validateRegister(input);
+        const productObj = {
+            updatedName,
+            updatedPrice,
+            updatedStock,
+            updatedDesc
+        }
+        const validationError = validateProduct(productObj);
 
         // ถ้า validationError มีค่าให้ setError()
         if (validationError) {
             return setError(validationError);
         }
-
         try {
             setInitialLoading(true)
             const reqBody = new FormData();
             reqBody.append('image', file);
-            reqBody.append('totalPrice', selectedTotalPrice)
-            reqBody.append('totalPrice', updatedInput)
-
+            reqBody.append('name', updatedName);
+            reqBody.append('price', updatedPrice)
+            reqBody.append('stockQuantity', updatedStock)
+            reqBody.append('desc', updatedDesc)
+            reqBody.append('categoryId', selectedCategoryId)
             // for (let [key, value] of reqBody.entries()) {
             //     console.log(key, value);
             // }
 
-            const response = await axios.post('/order/create', reqBody);
+            const response = await axios.patch(`/product/update/${selectedProductId}`, reqBody);
+            reset()
             if (response.status === 200) {
-                toast.success('your order is completed :)')
+                toast.success('Product is updated')
             }
         } catch (err) {
-            toast.success("sorry, your order is not completed :(")
+            console.log(err)
+            toast.error("Error updating product:", err);
         } finally {
             setInitialLoading(false)
         }
@@ -105,7 +124,6 @@ export default function AdminProductDetail() {
                         selectedProductImageUrl ? <img src={selectedProductImageUrl} className='object-cover border rounded-xl aspect-square object-cover' />
                             : <div className='bg-gray-400  border rounded-xl aspect-square' />
                     )}
-
                     <input
                         ref={inputEl}
                         className='hidden'
@@ -137,9 +155,9 @@ export default function AdminProductDetail() {
                             updatedName={updatedName}
                             updatedPrice={updatedPrice}
                             updatedStock={updatedStock}
+                            selectedCategoryId={selectedCategoryId}
+                            setSelectedCategoryId={setSelectedCategoryId}
                         />
-
-
                     </div>
 
                     <div className='flex flex-col gap-1'>
@@ -151,7 +169,7 @@ export default function AdminProductDetail() {
                             rows="4"
                             cols="50"
                             value={selectedProductDesc}
-                            onChange={(e) => setProductDesc(e.target.value)}
+                            onChange={(e) => setUpdatedDesc(e.target.value)}
                         />
                     </div>
 
@@ -165,12 +183,6 @@ export default function AdminProductDetail() {
             >
                 Update
             </button>
-
-            <SuccessAnimation
-                width={380}
-                height={380}
-            // isSuccess={showSuccessAnimation}
-            />
         </>
     )
 }
