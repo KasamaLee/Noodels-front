@@ -16,7 +16,7 @@ export default function Header() {
 	const navigate = useNavigate();
 
 	return (
-		<header className="section shadow-md z-50 bg-sky-950 fixed py-4 top-0">
+		<header className="section shadow-md z-30 bg-sky-950 fixed py-4 top-0">
 
 			<div className="container flex justify-between items-center text-white">
 				<h1
