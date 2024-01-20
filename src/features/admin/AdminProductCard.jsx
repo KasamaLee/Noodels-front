@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEdit, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../../components/Modal';
 import { useContext } from 'react';
 import { ProductContext } from '../../contexts/ProductContext';
@@ -22,26 +22,16 @@ export default function AdminProductCard({ id, desc, imageUrl, name, price, stoc
         setSelectedProductDesc,
         setSelectedProductPrice,
         setSelectedProductStockQuantity,
-        selectedCategoryId, setSelectedCategoryId,
-        handleDeleteProduct
+        setSelectedCategoryId,
+        handleDeleteProduct,
+        resetSelectedProductData
     } = useContext(ProductContext);
 
     useEffect(() => {
         if (!isOpenModal) {
-            reset();
+            resetSelectedProductData();
         }
     }, [isOpenModal])
-
-    const reset = () => {
-        setSelectedProductId(null)
-        setSelectedProductImageUrl(null)
-        setSelectedProductName(null)
-        setSelectedProductDesc(null)
-        setSelectedProductPrice(null)
-        setSelectedProductStockQuantity(null)
-        setSelectedCategoryId(null)
-    }
-
 
     return (
         <>
@@ -49,9 +39,9 @@ export default function AdminProductCard({ id, desc, imageUrl, name, price, stoc
 
                 <div className='w-full flex gap-4 items-center card-info'>
                     {imageUrl ? (
-                        <img src={imageUrl} alt='cartItem image' className='w-28 h-28 object-cover rounded-lg' />
+                        <img src={imageUrl} alt='cartItem image' className='w-24 h-24 aspect-square object-cover rounded-lg' />
                     ) : (
-                        <div className='bg-gray-400 w-28 h-28 rounded-xl'></div>
+                        <div className='bg-gray-400 w-24 h-24 aspect-square rounded-xl'></div>
                     )}
 
                     <div className='grow flex flex-col'>
@@ -93,10 +83,6 @@ export default function AdminProductCard({ id, desc, imageUrl, name, price, stoc
                     handleDelete={() => handleDeleteProduct(id)}
                     setIsOpenModal={setIsOpenDeleteModal}
                 />
-            </Modal>
-
-            <Modal isOpenModal={isOpenModal} onCloseModal={() => setIsOpenModal(false)}>
-                <AdminProductDetail />
             </Modal>
         </ >
     )

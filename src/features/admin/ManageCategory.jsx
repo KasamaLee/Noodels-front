@@ -5,26 +5,28 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function ManageCategory() {
 
-    const { allCategory, selectedCategoryId, setSelectedCategoryId, } = useContext(ProductContext);
+    const { allCategory, selectedCategoryId, setSelectedCategoryId, handleCreateCategory } = useContext(ProductContext);
     const [isCreateNewCategory, setIsCreateNewCategory] = useState(false);
-    console.log('selectedCategoryId:', selectedCategoryId)
+    const [input, setInput] = useState()
 
     return (
         <div className='flex flex-wrap gap-2 items-center'>
             {isCreateNewCategory ? (
                 <div className='w-full relative'>
                     <input
-                        type='number'
-                        value={''}
-                        min="0"
-                        max="99_999"
+                        type='text'
+                        value={input}
+                        maxLength="20"
                         placeholder=""
                         className='w-full px-4 text-lg font-bold focus:text-amber-500 rounded-lg border-2 border-gray-200'
-                        onChange={e => setUpdatedPrice(e.target.value)}
+                        onChange={e => setInput(e.target.value)}
                     />
                     <button
                         className='absolute top-1 right-2 px-3 py-2 rounded-full font-medium cursor-pointer bg-green-500 text-white hover:opacity-60'
-                        onClick={() => setIsCreateNewCategory(true)}
+                        onClick={() => {
+                            handleCreateCategory(input)
+                            setIsCreateNewCategory(false)
+                        }}
                     >
                         + Add
                     </button>
@@ -49,17 +51,19 @@ export default function ManageCategory() {
                         + Add
                     </button>
                 </>
-            )}
+            )
+            }
 
             <div
                 className={`px-3 py-1 text-sm rounded-3xl font-medium cursor-pointer bg-red-500 text-white hover:opacity-60`}
                 onClick={() => {
                     setSelectedCategoryId(null)
                     setIsCreateNewCategory(false)
+                    setInput()
                 }}
             >
                 x Reset
             </div>
-        </div>
+        </div >
     )
 }

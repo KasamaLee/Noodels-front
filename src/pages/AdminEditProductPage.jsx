@@ -7,13 +7,23 @@ import AdminCategory from '../features/admin/AdminCategory';
 import NoodlesAnimation from '../components/NoodlesAnimation';
 import Modal from '../components/Modal';
 import AdminProductDetail from '../features/admin/AdminProductDetail';
-
+import { useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDolly } from '@fortawesome/free-solid-svg-icons';
 
 export default function AdminEditProductPage() {
 
-    const { allProducts, filteredProducts, isOpenModal, setIsOpenModal } = useContext(ProductContext)
+    const { allProducts, filteredProducts, isOpenModal, setIsOpenModal, selectedProductId, resetSelectedProductData } = useContext(ProductContext)
     console.log(allProducts)
-    console.log(filteredProducts)
+    // console.log(filteredProducts)
+
+
+    useEffect(() => {
+        if (!isOpenModal) {
+            resetSelectedProductData();
+        }
+    }, [isOpenModal])
+
     return (
         <section className='section py-28'>
             <div className='container flex flex-col items-center justify-center gap-8'>
@@ -21,10 +31,11 @@ export default function AdminEditProductPage() {
                 <AdminCategory />
 
                 <button
-                    className='mx-auto w-80 ring-4 ring-black text-black px-6 py-2 bg-amber-400 rounded-xl text-2xl font-semibold flex justify-center items-center gap-2 hover:gap-4'
+                    className='w-1/2 ring-4 ring-black text-black p-4 bg-amber-400 rounded-xl text-2xl font-semibold flex justify-center items-center gap-3 hover:gap-6'
                     onClick={() => setIsOpenModal(true)}
                 >
                     Add new product
+                    <FontAwesomeIcon icon={faDolly} size='xl' />
                 </button>
 
                 <div className='grid grid-cols-2 desktop:grid-cols-3 gap-8'>

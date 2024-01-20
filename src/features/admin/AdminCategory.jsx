@@ -20,7 +20,6 @@ export default function AdminCategory() {
     const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState({ id: null, name: '' });
 
-    console.log(selectedCategory)
 
     useEffect(() => {
         if (selectedCategory.id) {

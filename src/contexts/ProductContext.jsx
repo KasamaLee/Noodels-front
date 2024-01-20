@@ -15,7 +15,7 @@ export default function ProductContextProvider({ children }) {
     const [selectedProductId, setSelectedProductId] = useState(null);
     const [selectedProductImageUrl, setSelectedProductImageUrl] = useState();
     const [selectedProductName, setSelectedProductName] = useState();
-    const [selectedProductDesc, setSelectedProductDesc] = useState();
+    const [selectedProductDesc, setSelectedProductDesc] = useState('');
     const [selectedProductPrice, setSelectedProductPrice] = useState();
     const [selectedProductStockQuantity, setSelectedProductStockQuantity] = useState();
 
@@ -43,6 +43,16 @@ export default function ProductContextProvider({ children }) {
     const handleFilteredProducts = (categoryId) => {
         const newFilteredProducts = allProducts.filter((eachProduct) => (eachProduct.countryId === categoryId))
         setFilteredProducts(newFilteredProducts);
+    }
+
+    const resetSelectedProductData = () => {
+        setSelectedProductId()
+        setSelectedProductImageUrl()
+        setSelectedProductName()
+        setSelectedProductDesc('')
+        setSelectedProductPrice()
+        setSelectedProductStockQuantity()
+        setSelectedCategoryId()
     }
 
     const handleDeleteProduct = async (productId) => {
@@ -114,7 +124,8 @@ export default function ProductContextProvider({ children }) {
                 handleDeleteCategory,
                 handleCreateCategory,
                 handleUpdateCategory,
-                selectedCategoryId, setSelectedCategoryId
+                selectedCategoryId, setSelectedCategoryId,
+                resetSelectedProductData
             }}
         >
             {children}
