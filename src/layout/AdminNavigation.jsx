@@ -21,7 +21,7 @@ export default function AdminNavigation() {
                     onClick={() => {
                         navigate('/edit')
                     }}>
-                    Edit
+                    Product
                 </li>
 
             </ul>
