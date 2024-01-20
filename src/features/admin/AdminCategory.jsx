@@ -64,7 +64,7 @@ export default function AdminCategory() {
                     {allCategory.map((eachCategory) => (
                         <div
                             key={uuidv4()}
-                            className={`${selectedCategory.id === eachCategory.id && 'bg-amber-300'} hover:bg-amber-200 w-fit bg-gray-300 px-3 py-1 rounded-lg cursor-pointer flex gap-3`}
+                            className={`${selectedCategory.id === eachCategory.id ? 'bg-amber-300' : 'bg-gray-300'} hover:bg-amber-200 w-fit px-3 py-1 rounded-lg cursor-pointer flex gap-3`}
                             onClick={() => {
                                 handleFilteredProducts(+selectedCategory.id)
                                 setSelectedCategory({ ...selectedCategory, id: eachCategory.id, name: eachCategory.name })

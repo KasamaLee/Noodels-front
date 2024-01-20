@@ -109,6 +109,7 @@ export default function ProductContextProvider({ children }) {
             value={{
                 isOpenModal, setIsOpenModal,
                 allProducts, setAllProducts,
+                fetchProduct,
                 selectedProductId, setSelectedProductId,
                 selectedProductImageUrl, setSelectedProductImageUrl,
                 selectedProductName, setSelectedProductName,

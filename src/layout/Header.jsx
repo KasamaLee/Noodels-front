@@ -46,7 +46,7 @@ export default function Header() {
 				</div>
 
 				{/* ---- LOGIN MODAL ---- */}
-				<Modal isOpenModal={isOpenLoginModal} onCloseModal={() => setIsOpenLoginModal(false)}>
+				<Modal zIndex={50} isOpenModal={isOpenLoginModal} onCloseModal={() => setIsOpenLoginModal(false)}>
 					<LoginOrRegister onCloseModal={() => setIsOpenLoginModal(false)} />
 				</Modal>
 
