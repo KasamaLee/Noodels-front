@@ -26,7 +26,7 @@ export default function OrderPage() {
       <div className='container flex flex-col items-center justify-center gap-8'>
         <h4 className='text-3xl'>Your order history</h4>
 
-        {orderData?.map(eachOrder => {
+        {orderData?.reverse().map(eachOrder => {
           return (
             <OrderList
               key={uuidv4()}

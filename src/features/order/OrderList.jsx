@@ -26,7 +26,12 @@ export default function OrderList({ id, orderDate, totalPrice, orderItem, status
                 <p className=''>Order date: {date}</p>
                 <p className='font-bold text-lg'>Total Price : {totalPrice}</p>
             </div>
-            <p className='w-2/3 font-bold text-lg text-green-600 border-t border-gray-500 pt-2'>Your order status : {status}</p>
+            <p className='w-2/3 font-bold text-lg border-t border-gray-500 pt-2'>
+                Your order status :
+                <span className={`${status ? ('text-green-500') : ('text-amber-500')} ml-2`}>
+                    {status ? ('Preparing your order') : ('Order Processing')}
+                </span>
+            </p>
         </div>
     )
 }
