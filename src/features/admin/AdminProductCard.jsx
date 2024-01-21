@@ -78,7 +78,7 @@ export default function AdminProductCard({ id, desc, imageUrl, name, price, stoc
             </div>
 
 
-            <Modal isOpenModal={isOpenDeleteModal} onCloseModal={() => setIsOpenDeleteModal(false)}>
+            <Modal z={'z-20'} isOpenModal={isOpenDeleteModal} onCloseModal={() => setIsOpenDeleteModal(false)}>
                 <ConfirmDelete
                     handleDelete={() => handleDeleteProduct(id)}
                     setIsOpenModal={setIsOpenDeleteModal}
