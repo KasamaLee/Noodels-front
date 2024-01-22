@@ -14,7 +14,8 @@ export default function AdminCategory() {
     const {
         allCategory,
         handleDeleteCategory, handleCreateCategory, handleUpdateCategory,
-        handleFilteredProducts, setFilteredProducts
+        handleFilteredProducts, setFilteredProducts,
+        resetSelectedProductData,fetchProduct
     } = useContext(ProductContext)
 
     const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
@@ -27,6 +28,13 @@ export default function AdminCategory() {
         }
         setFilteredProducts(null)
     }, [selectedCategory]);
+
+    useEffect(() => {
+        if (!isOpenDeleteModal) {
+            resetSelectedProductData()
+            fetchProduct()
+        }
+    }, [isOpenDeleteModal])
 
     return (
         <>
@@ -83,7 +91,7 @@ export default function AdminCategory() {
 
                 {selectedCategory.id &&
                     <div
-                        className={`px-4 py-2 rounded-full font-medium cursor-pointer bg-red-500 text-white hover:opacity-60`}
+                        className={`px-6 py-2 rounded-full font-medium cursor-pointer bg-red-500 text-white hover:opacity-60`}
                         onClick={() => { setSelectedCategory({ id: null, name: '' }) }}
                     > Reset </div>
                 }

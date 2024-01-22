@@ -14,7 +14,7 @@ import { faDolly } from '@fortawesome/free-solid-svg-icons';
 export default function AdminEditProductPage() {
 
     const { allProducts, filteredProducts, isOpenModal, setIsOpenModal, selectedProductId, resetSelectedProductData } = useContext(ProductContext)
-    console.log(allProducts)
+    // console.log(allProducts)
     // console.log(filteredProducts)
 
 

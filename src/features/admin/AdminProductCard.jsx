@@ -22,16 +22,24 @@ export default function AdminProductCard({ id, desc, imageUrl, name, price, stoc
         setSelectedProductDesc,
         setSelectedProductPrice,
         setSelectedProductStockQuantity,
-        setSelectedCategoryId,
+        setSelectedCategoryId,selectedCategoryId,
         handleDeleteProduct,
         resetSelectedProductData
     } = useContext(ProductContext);
+
+    console.log(selectedCategoryId)
 
     useEffect(() => {
         if (!isOpenModal) {
             resetSelectedProductData();
         }
     }, [isOpenModal])
+
+    // useEffect(()=> {
+    //     if (isOpenDeleteModal) {
+    //         resetSelectedProductData();
+    //     }
+    // },[isOpenDeleteModal])
 
     return (
         <>
