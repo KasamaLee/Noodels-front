@@ -65,7 +65,7 @@ Run project: pnpm run dev
 
 ### Product Management
 ![alt text](/src/assets/previews/noodels_manage.png)
-- **CRUD category** 
+- **CRUD category and filter product** 
 ![alt text](/src/assets/previews/noodels_category.png)
 - **CRUD product** 
 ![alt text](/src/assets/previews/noodels_update.png)
