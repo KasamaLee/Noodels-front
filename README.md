@@ -42,7 +42,7 @@ Run project: pnpm run dev
 
 ### User profile
 - **User can change their info and password** 
-![alt text](/src/assets/previews/noodels_profile.png)
+![alt text](/src/assets/previews/noodels_userprofile.png)
 
 ### Authentication with JWT or Google login
 - **Login** 
