@@ -13,6 +13,8 @@ Run project: pnpm run dev
 
 # Features
 
+
+
 ## Guest
 
 ### Product
@@ -22,6 +24,8 @@ Run project: pnpm run dev
 - **Add to cart (CTA)** 
 - **Product quantity** 
 ![alt text](/src/assets/previews/noodels_addproduct.png)
+
+
 
 ## User
 
@@ -50,6 +54,8 @@ Run project: pnpm run dev
 
 - **Register validation** 
 ![alt text](/src/assets/previews/noodels_register.png)
+
+
 
 ## Admin
 
