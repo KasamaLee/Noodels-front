@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import CategoryList from '../features/category/CategoryList';
 
+
 export default function HomePage() {
 
     const defaultOptions = {
@@ -42,13 +43,13 @@ export default function HomePage() {
             </section>
 
             <section>
-                <div className='py-10 container flex justify-center gap-4'>
+                <div className='pt-16 container flex justify-center gap-4'>
                     <CategoryList />
                 </div>
             </section>
 
             <section className='section'>
-                <div className='container py-10'>
+                <div className='container py-16'>
                     <ProductList />
                 </div>
             </section>

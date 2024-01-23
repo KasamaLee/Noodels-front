@@ -24,9 +24,6 @@
     color: #213547;
     @apply bg-amber-50;
   }
-  a:hover {
-    color: #747bff;
-  }
   table {
     background-color: #fff;
   }

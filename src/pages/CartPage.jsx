@@ -13,7 +13,7 @@ export default function CartPage() {
 
 	const { authUser } = useContext(AuthContext);
 	const { cartData, sortedCartItems } = useContext(CartContext);
-	const { selectedItems, setSelectedItems } = useContext(OrderContext);
+	const { selectedItems, setSelectedItems,selectedItemId,filterItem } = useContext(OrderContext);
 
 	// console.log(cartData?.CartItem)
 	// console.log(sortedCartItems)
@@ -22,6 +22,10 @@ export default function CartPage() {
     useEffect(() => {
         setSelectedItems([])
     },[])
+
+	useEffect(() => {
+        filterItem()
+    }, [cartData, selectedItemId])
 
 	return (
 		<section className='section py-28'>
@@ -50,7 +54,7 @@ export default function CartPage() {
 				)}
 
 			</div>
-			{selectedItems.length > 0 && <CartFooter />}
+			{selectedItemId?.length > 0 && <CartFooter />}
 
 		</section>
 	)

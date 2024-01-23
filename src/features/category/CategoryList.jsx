@@ -5,7 +5,7 @@ import { ProductContext } from '../../contexts/ProductContext';
 
 export default function CategoryList() {
 
-    const { allProducts, allCategory, selectedCategory, setSelectedCategory, handleFilteredProducts } = useContext(ProductContext)
+    const { allProducts, allCategory } = useContext(ProductContext)
 
     // console.log(allCategory)
 

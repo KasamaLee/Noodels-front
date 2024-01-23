@@ -7,7 +7,7 @@ import { OrderContext } from '../../contexts/OrderContext';
 export default function CartFooter() {
 
     const navigate = useNavigate()
-    const { selectedTotalPrice } = useContext(OrderContext)
+    const { selectedTotalPrice} = useContext(OrderContext)
 
     return (
         <div className='section fixed z-20 bottom-0 left-0 right-0 bg-white border-t-4 border-t-amber-500 py-5'>

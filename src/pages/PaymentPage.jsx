@@ -26,7 +26,7 @@ export default function PaymentPage() {
     const [clientSecret, setClientSecret] = useState("");
 
     const { initialLoading, setInitialLoading, authUser } = useContext(AuthContext)
-    const { selectedItems, selectedTotalPrice } = useContext(OrderContext);
+    const { selectedItems, selectedTotalPrice, filterItem } = useContext(OrderContext);
     // console.log(selectedItems)
 
     const [isOpenQrModal, setIsOpenQrModal] = useState(false)
@@ -57,15 +57,9 @@ export default function PaymentPage() {
         }
     }
 
-
-    const appearance = {
-        theme: 'stripe',
-    };
-    const options = {
-        clientSecret,
-        appearance,
-    };
-
+    useEffect(() => {
+        filterItem()
+    }, [])
 
     useEffect(() => {
         resetFile()

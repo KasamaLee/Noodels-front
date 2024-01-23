@@ -14,8 +14,8 @@ import ConfirmDelete from '../../components/ConfirmDelete';
 
 export default function CartItem({ eachCart }) {
 
-    const { selectedItems, handleCheckbox } = useContext(OrderContext);
-    const { handleDeleteCartItem, deletingItemId, setDeletingItemId } = useContext(CartContext);
+    const { selectedItems, handleCheckbox, handleChecked,selectedItemId  } = useContext(OrderContext);
+    const { handleDeleteCartItem, deletingItemId, setDeletingItemId} = useContext(CartContext);
     const { isOpenModal, setIsOpenModal } = useContext(ProductContext)
 
 
@@ -71,8 +71,13 @@ export default function CartItem({ eachCart }) {
                     className='absolute -right-14 w-6 h-6 accent-amber-600 border-2 bg-gray-100 border-gray-300 rounded-lg focus:ring-amber-500 dark:focus:ring-amber-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
                     type="checkbox"
                     // checked={true}
-                    checked={selectedItems.includes(eachCart)}
-                    onChange={() => handleCheckbox(eachCart)}
+                    // checked={selectedItems.includes(eachCart)}
+                    // checked={(selectedItemId?.includes(eachCart.id))}
+                    checked={selectedItemId.includes(eachCart.id)}
+                    onChange={() =>{ 
+                        // handleCheckbox(eachCart)
+                        handleChecked(eachCart.id)
+                    }}
                 />
             }
 
