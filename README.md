@@ -13,18 +13,17 @@ Run project: pnpm run dev
 
 # Features
 
-
-
 ## Guest
 
 ### Product
 ![alt text](/src/assets/previews/noodels_product.png)
+- **Filter** 
+![alt text](/src/assets/previews/noodels_filter.png)
 
 ### Product Detail
 - **Add to cart (CTA)** 
 - **Product quantity** 
 ![alt text](/src/assets/previews/noodels_addproduct.png)
-
 
 
 ## User
@@ -51,10 +50,8 @@ Run project: pnpm run dev
 ### Authentication with JWT or Google login
 - **Login** 
 ![alt text](/src/assets/previews/noodels_login.png)
-
 - **Register validation** 
 ![alt text](/src/assets/previews/noodels_register.png)
-
 
 
 ## Admin
@@ -67,9 +64,7 @@ Run project: pnpm run dev
 
 ### Product Management
 ![alt text](/src/assets/previews/noodels_manage.png)
-
 - **CRUD category** 
 ![alt text](/src/assets/previews/noodels_category.png)
-
 - **CRUD product** 
 ![alt text](/src/assets/previews/noodels_update.png)
