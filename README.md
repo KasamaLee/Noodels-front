@@ -30,7 +30,8 @@ Run project: pnpm run dev
 
 ### Cart
 - **Update quantity** 
-- **Select products to pay** 
+- **Delete cart** 
+- **Select carts to pay** 
 ![alt text](/src/assets/previews/noodels_cart.png)
 
 ### Payment
