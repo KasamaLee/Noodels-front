@@ -69,3 +69,4 @@ Run project: pnpm run dev
 ![alt text](/src/assets/previews/noodels_category.png)
 - **CRUD product** 
 ![alt text](/src/assets/previews/noodels_update.png)
+![alt text](/src/assets/previews/noodel_addnew.png)
