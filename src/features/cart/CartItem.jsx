@@ -14,8 +14,8 @@ import ConfirmDelete from '../../components/ConfirmDelete';
 
 export default function CartItem({ eachCart }) {
 
-    const { selectedItems, handleCheckbox, handleChecked,selectedItemId  } = useContext(OrderContext);
-    const { handleDeleteCartItem, deletingItemId, setDeletingItemId} = useContext(CartContext);
+    const { selectedItems, handleCheckbox, handleChecked, selectedItemId } = useContext(OrderContext);
+    const { handleDeleteCartItem, deletingItemId, setDeletingItemId } = useContext(CartContext);
     const { isOpenModal, setIsOpenModal } = useContext(ProductContext)
 
 
@@ -74,7 +74,7 @@ export default function CartItem({ eachCart }) {
                     // checked={selectedItems.includes(eachCart)}
                     // checked={(selectedItemId?.includes(eachCart.id))}
                     checked={selectedItemId.includes(eachCart.id)}
-                    onChange={() =>{ 
+                    onChange={() => {
                         // handleCheckbox(eachCart)
                         handleChecked(eachCart.id)
                     }}
@@ -83,6 +83,7 @@ export default function CartItem({ eachCart }) {
 
             <Modal isOpenModal={isOpenModal} onCloseModal={() => setIsOpenModal(!isOpenModal)}>
                 <ConfirmDelete
+                    text='this cart'
                     handleDelete={() => handleDeleteCartItem(deletingItemId)}
                     setIsOpenModal={setIsOpenModal}
                 />

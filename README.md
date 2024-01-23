@@ -33,6 +33,8 @@ Run project: pnpm run dev
 - **Delete cart** 
 - **Select carts to pay** 
 ![alt text](/src/assets/previews/noodels_cart.png)
+- **Delete cart (error prevention)** 
+![alt text](/src/assets/previews/noodels_confirmdelete.png)
 
 ### Payment
 - **Check order summary and address** 
