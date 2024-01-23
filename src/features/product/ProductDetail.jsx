@@ -117,6 +117,8 @@ export default function ProductDetail({ productId }) {
                         <h6 className='text-xl text-amber-500'>{selectedProductPrice} &#3647;</h6>
                     </div>
 
+                    <p className='w-80 text-sm font-light text-gray-600'>{selectedProductDesc}</p>
+                    
                     <div className='flex gap-4 items-center justify-center'>
                         <FontAwesomeIcon icon={faSquareMinus} size='2x'
                             className={`cursor-pointer ${productCount <= 1 ? 'opacity-20' : 'hover:text-amber-500 active:text-amber-500 '}`}
@@ -145,7 +147,7 @@ export default function ProductDetail({ productId }) {
                 }
 
                 <button
-                    className='mt-4 w-56 ring-4 ring-black text-black px-6 py-2 bg-amber-400 rounded-3xl text-2xl font-semibold flex justify-center items-center gap-2 hover:gap-4'
+                    className='mt-4 mx-auto w-56 ring-4 ring-black text-black px-6 py-2 bg-amber-400 rounded-3xl text-2xl font-semibold flex justify-center items-center gap-2 hover:gap-4'
                     onClick={() => addToCart()}
                 >
                     Add to cart

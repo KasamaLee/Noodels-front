@@ -7,7 +7,7 @@ import NoodlesAnimation from '../../components/NoodlesAnimation';
 export default function ProductList() {
 
     const { allProducts, filteredProducts } = useContext(ProductContext);
-
+console.log(allProducts)
 
     return (
         <>
