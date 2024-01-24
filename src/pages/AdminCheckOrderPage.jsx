@@ -1,43 +1,46 @@
-import axios from '../config/axios'
 import { useEffect } from "react"
-import { useState } from "react"
 import { v4 as uuidv4 } from 'uuid';
 import { ToggleSwitch, Badge, Dropdown } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlassPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlassPlus, faTruckFast, faHourglass } from '@fortawesome/free-solid-svg-icons';
+import CategoryOrder from '../features/admin/CategoryOrder';
+import { useContext } from 'react';
+import { AdminContext } from '../contexts/AdminContext';
 
 export default function AdminCheckOrderPage() {
 
-    const [ordersData, setOrdersData] = useState()
-    const [isCompleted, setIsCompleted] = useState(false);
+    const {
+        ordersData, setOrdersData,
+        shownOrders, setShownOrders,
+        completedOrders, setCompletedOrders,
+        uncompletedOrders, setUncompletedOrders,
+        isCompleted, setIsCompleted,
+        selectedCategory, setSelectedCategory,
+        fetchAllOrder,
+        handleFilteredOrders,
+        handleOrderCompleted,
+        handlePaymentStatus,
+    } = useContext(AdminContext)
 
     useEffect(() => {
         fetchAllOrder()
     }, [])
-
-    const fetchAllOrder = async () => {
-        const response = await axios.get('/order/getAll')
-        setOrdersData(response.data.order)
-    }
-    console.log(ordersData)
-
-    const handlePaymentStatus = async (paymentId, status) => {
-        try {
-            const response = await axios.patch('/order/updateStatus', { paymentId, status })
-            if (response.status === 200) {
-                // console.log('fetch')
-                fetchAllOrder()
-            }
-        } catch (err) {
-            console.log(err)
-        }
-    }
+    // console.log(ordersData)
+    // console.log('shownOrders', shownOrders)
+    // console.log('completedOrders', completedOrders)
+    // console.log('uncompletedOrders', uncompletedOrders)
 
     return (
         <>
             <section className='section py-28'>
                 <div className="flex flex-col gap-6">
                     <h4 className='text-3xl text-center'>Order</h4>
+
+                    <div className='flex gap-4 mx-auto'>
+                        <CategoryOrder name={'All'} />
+                        <CategoryOrder name={'Undelivered'} />
+                        <CategoryOrder name={'Delivered'} />
+                    </div>
 
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -54,10 +57,11 @@ export default function AdminCheckOrderPage() {
                                             <th scope="col" className=" px-6 py-4">Slip image</th>
                                             <th scope="col" className=" px-6 py-4">Payment status</th>
                                             <th scope="col" className=" px-6 py-4">Address</th>
+                                            <th scope="col" className=" px-6 py-4">Order is delivered ?</th>
                                         </tr>
                                     </thead>
                                     <tbody className="">
-                                        {ordersData?.map(eachOrder => {
+                                        {shownOrders?.map(eachOrder => {
                                             return (
                                                 <tr key={uuidv4()} className="border-b dark:border-neutral-500">
                                                     <td className="whitespace-nowrap  px-6 py-4 font-medium">{eachOrder.id}</td>
@@ -113,6 +117,30 @@ export default function AdminCheckOrderPage() {
                                                     <td className=" px-6 py-4 w-64 ">
                                                         {eachOrder.user.address}
                                                     </td>
+
+                                                    <td className="whitespace-nowrap p-4">
+                                                        <div className='flex flex-col items-center gap-3'>
+                                                            {eachOrder.completed ? (
+                                                                <Badge size="sm" color="success">
+                                                                    Delivered
+                                                                    <FontAwesomeIcon icon={faTruckFast} size='1x' className="ml-1" />
+                                                                </Badge>
+                                                            ) : (
+                                                                <Badge size="sm" color="failure">
+                                                                    In progress
+                                                                    <FontAwesomeIcon icon={faHourglass} size='1x' className="ml-1" />
+                                                                </Badge>
+                                                            )}
+                                                            <ToggleSwitch checked={eachOrder.completed} onChange={() => {
+                                                                if (!eachOrder?.completed && eachOrder?.payment.status) {
+                                                                    handleOrderCompleted(eachOrder.id, true)
+                                                                } else {
+                                                                    handleOrderCompleted(eachOrder.id, false)
+                                                                }
+                                                            }} />
+                                                        </div>
+                                                    </td>
+
                                                 </tr>
                                             )
                                         })}

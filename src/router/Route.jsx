@@ -16,6 +16,7 @@ import { AuthContext } from '../contexts/AuthContext'
 import AdminLayout from '../layout/AdminLayout'
 import AdminCheckOrderPage from '../pages/AdminCheckOrderPage'
 import AdminEditProductPage from '../pages/AdminEditProductPage'
+import AdminContextProvider from '../contexts/AdminContext'
 
 
 export default function Route() {
@@ -72,7 +73,9 @@ export default function Route() {
                 path: '/',
                 element: (
                     <ProductContextProvider>
-                        <AdminLayout />
+                        <AdminContextProvider>
+                            <AdminLayout />
+                        </AdminContextProvider>
                     </ProductContextProvider>
                 ),
                 children: [
