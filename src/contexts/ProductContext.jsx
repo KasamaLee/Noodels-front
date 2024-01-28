@@ -21,7 +21,7 @@ export default function ProductContextProvider({ children }) {
 
     const [allCategory, setAllCategory] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('All');
-    const [selectedCategoryId, setSelectedCategoryId] = useState('All');
+    const [selectedCategoryId, setSelectedCategoryId] = useState();
     const [filteredProducts, setFilteredProducts] = useState(null);
 
 

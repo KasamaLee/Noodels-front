@@ -12,23 +12,21 @@ export default function AdminCheckOrderPage() {
     const {
         ordersData, setOrdersData,
         shownOrders, setShownOrders,
-        completedOrders, setCompletedOrders,
-        uncompletedOrders, setUncompletedOrders,
-        isCompleted, setIsCompleted,
         selectedCategory, setSelectedCategory,
         fetchAllOrder,
-        handleFilteredOrders,
         handleOrderCompleted,
         handlePaymentStatus,
     } = useContext(AdminContext)
 
+
     useEffect(() => {
         fetchAllOrder()
     }, [])
+
+
+    // console.log(selectedCategory)
     // console.log(ordersData)
-    // console.log('shownOrders', shownOrders)
-    // console.log('completedOrders', completedOrders)
-    // console.log('uncompletedOrders', uncompletedOrders)
+    // console.log('filtered', shownOrders)
 
     return (
         <>

@@ -16,7 +16,6 @@ export default function CartContextProvider({ children }) {
     const [cartItems, setCartItems] = useState();
     const [productTotalPrice, setProductTotalPrice] = useState();
     const [cartData, setCartData] = useState();
-    const [selectedCartItemTotalPrice, setSelectedCartItemTotalPrice] = useState(0)
     const [deletingItemId, setDeletingItemId] = useState(null);
 
     const { authUser, isOpenLoginModal, setIsOpenLoginModal } = useContext(AuthContext)
@@ -94,7 +93,6 @@ export default function CartContextProvider({ children }) {
                 productCount, setProductCount,
                 cartItems, setCartItems,
                 productTotalPrice, setProductTotalPrice,
-                selectedCartItemTotalPrice, setSelectedCartItemTotalPrice,
                 deletingItemId, setDeletingItemId,
                 handleAddToCart, handleDeleteCartItem, handleUpDateQuantity,
                 cartData, setCartData,

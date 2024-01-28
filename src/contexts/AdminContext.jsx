@@ -17,10 +17,22 @@ export default function AdminContextProvider({ children }) {
     const [selectedCategory, setSelectedCategory] = useState('All')
 
 
+    useEffect(() => {
+        if (selectedCategory === 'All') {
+            setShownOrders(ordersData);
+        }
+        else if (selectedCategory === 'Delivered') {
+            setShownOrders(completedOrders);
+        } else if (selectedCategory === 'Undelivered') {
+            setShownOrders(uncompletedOrders);
+        }
+    }, [selectedCategory, completedOrders, uncompletedOrders, ordersData])
+
+    
     const fetchAllOrder = async () => {
         const response = await axios.get('/order/getAll')
         setOrdersData(response.data.order)
-        setShownOrders(response.data.order)
+        // setShownOrders(response.data.order)
         handleFilteredOrders(response.data.order)
     }
 
@@ -61,7 +73,7 @@ export default function AdminContextProvider({ children }) {
             const response = await axios.patch('/order/updateOrderCompleted', { orderId, status })
             if (response.status === 200) {
                 fetchAllOrder()
-                // handleFilteredOrders()
+
             }
         } catch (err) {
             console.log(err)
