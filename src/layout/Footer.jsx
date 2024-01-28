@@ -8,7 +8,7 @@ export default function Footer() {
 
     return (
         <footer
-            className="section text-center text-neutral-600 dark:bg-neutral-600 dark:text-neutral-200 text-left border border-t-1">
+            className="section text-center text-neutral-600 dark:bg-neutral-600 dark:text-neutral-200 text-left border-t border-t-1">
 
             <div className="container py-8 text-center md:text-left">
                 <div className="grid-1 grid gap-8 grid-cols-2">

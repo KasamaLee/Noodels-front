@@ -63,6 +63,9 @@ Run project: pnpm run dev
 - **Check slip users uploaded and accept payment** 
 - **Check product and address** 
 ![alt text](/src/assets/previews/noodels_admin.png)
+- **Filter and edit delivery status** 
+- **If payment status is 'Failed', admin cannot edit delivery status** 
+![alt text](/src/assets/previews/noodels_orderfilter.png)
 
 
 ### Product Management
